@@ -15,7 +15,7 @@ struct base
 void alterarDado(base ex[], int i, bool &alterou)
 {
     bool tentarNovamente = true;
-    string valorAlterar, aux;
+    string valorAlterar;
     cout << "O que voce deseja alterar? Digite 'id', 'nome', 'objetivo', 'musculos', 'dificuldade'ou 'tudo': ";
     while (tentarNovamente)
     {
@@ -26,12 +26,6 @@ void alterarDado(base ex[], int i, bool &alterou)
             cout << "Digite o novo valor: ";
             cin >> ex[i].id;
             alterou = true;
-            cout << "Mais alguma alteracao? 'sim' para sim e outro valor qualquer para nao: ";
-            cin >> aux;
-            if (aux == "sim")
-                tentarNovamente = true;
-            else
-                tentarNovamente = false;
         }
         else if (valorAlterar == "nome")
         {
@@ -39,12 +33,6 @@ void alterarDado(base ex[], int i, bool &alterou)
             cout << "Digite o novo valor: ";
             getline(cin, ex[i].nome);
             alterou = true;
-            cout << "Mais alguma alteracao? 'sim' para sim e outro valor qualquer para nao: ";
-            cin >> aux;
-            if (aux == "sim")
-                tentarNovamente = true;
-            else
-                tentarNovamente = false;
         }
         else if (valorAlterar == "objetivo")
         {
@@ -52,12 +40,6 @@ void alterarDado(base ex[], int i, bool &alterou)
             cout << "Digite o novo valor: ";
             getline(cin, ex[i].objetivo);
             alterou = true;
-            cout << "Mais alguma alteracao? 'sim' para sim e outro valor qualquer para nao: ";
-            cin >> aux;
-            if (aux == "sim")
-                tentarNovamente = true;
-            else
-                tentarNovamente = false;
         }
         else if (valorAlterar == "musculos")
         {
@@ -65,24 +47,12 @@ void alterarDado(base ex[], int i, bool &alterou)
             cout << "Digite o novo valor: ";
             getline(cin, ex[i].musculos);
             alterou = true;
-            cout << "Mais alguma alteracao? 'sim' para sim e outro valor qualquer para nao: ";
-            cin >> aux;
-            if (aux == "sim")
-                tentarNovamente = true;
-            else
-                tentarNovamente = false;
         }
         else if (valorAlterar == "dificuldade")
         {
             cout << "Digite o novo valor: ";
             cin >> ex[i].dificuldade;
             alterou = true;
-            cout << "Mais alguma alteracao? 'sim' para sim e outro valor qualquer para nao: ";
-            cin >> aux;
-            if (aux == "sim")
-                tentarNovamente = true;
-            else
-                tentarNovamente = false;
         }
         else if (valorAlterar == "tudo")
         {
@@ -96,12 +66,6 @@ void alterarDado(base ex[], int i, bool &alterou)
             getline(cin, ex[i].musculos, ';');
             cin >> ex[i].dificuldade;
             cin.ignore();
-            cout << "Mais alguma alteracao? 'sim' para sim e outro valor qualquer para nao: ";
-            cin >> aux;
-            if (aux == "sim")
-                tentarNovamente = true;
-            else
-                tentarNovamente = false;
         }
         else
         {
@@ -113,6 +77,13 @@ void alterarDado(base ex[], int i, bool &alterou)
             else
                 tentarNovamente = false;
         }
+    cout << "Mais alguma alteracao? 'sim' para sim e outro valor qualquer para nao: ";
+    string aux;
+    cin >> aux;
+    if (aux == "sim")
+        tentarNovamente = true;
+    else
+        tentarNovamente = false;
     }
 }
 /* funcao principal, recebe os dados do arquivo csv, executa uma busca no arquivo pelo exercicio informado pelo usuario, caso encontre ela pergunta
