@@ -11,7 +11,7 @@ struct base
     int dificuldade;
 };
 /* Funcao que altera os dados desejados. Enquanto a variavel bool tentarNovamente estive ativa a funcao pede informacoes para o usuario,
- caso chegue ao fim, ou encontre valores invalidos ela para de ser executada */.
+ caso chegue ao fim, ou encontre valores invalidos ela para de ser executada */
 void alterarDado(base ex[], int i)
 {
     bool tentarNovamente = true;
