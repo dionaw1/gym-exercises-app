@@ -12,11 +12,11 @@ struct base
 };
 /* Funcao que altera os dados desejados. Enquanto a variavel bool tentarNovamente estive ativa a funcao pede informacoes para o usuario,
  caso chegue ao fim, ou encontre valores invalidos ela para de ser executada */
-void alterarDado(base ex[], int i)
+void alterarDado(base ex[], int i, bool &alterou)
 {
     bool tentarNovamente = true;
     string valorAlterar, aux;
-    cout << "O que voce deseja alterar? Digite 'id', 'nome', 'objetivo', 'musculos', 'dificuldade'ou 'tudo'";
+    cout << "O que voce deseja alterar? Digite 'id', 'nome', 'objetivo', 'musculos', 'dificuldade'ou 'tudo': ";
     while (tentarNovamente)
     {
         cin >> valorAlterar;
@@ -25,6 +25,7 @@ void alterarDado(base ex[], int i)
             cin.ignore();
             cout << "Digite o novo valor: ";
             cin >> ex[i].id;
+            alterou = true;
             cout << "Mais alguma alteracao? 'sim' para sim e outro valor qualquer para nao: ";
             cin >> aux;
             if (aux == "sim")
@@ -37,6 +38,7 @@ void alterarDado(base ex[], int i)
             cin.ignore();
             cout << "Digite o novo valor: ";
             getline(cin, ex[i].nome);
+            alterou = true;
             cout << "Mais alguma alteracao? 'sim' para sim e outro valor qualquer para nao: ";
             cin >> aux;
             if (aux == "sim")
@@ -49,6 +51,7 @@ void alterarDado(base ex[], int i)
             cin.ignore();
             cout << "Digite o novo valor: ";
             getline(cin, ex[i].objetivo);
+            alterou = true;
             cout << "Mais alguma alteracao? 'sim' para sim e outro valor qualquer para nao: ";
             cin >> aux;
             if (aux == "sim")
@@ -61,6 +64,7 @@ void alterarDado(base ex[], int i)
             cin.ignore();
             cout << "Digite o novo valor: ";
             getline(cin, ex[i].musculos);
+            alterou = true;
             cout << "Mais alguma alteracao? 'sim' para sim e outro valor qualquer para nao: ";
             cin >> aux;
             if (aux == "sim")
@@ -72,6 +76,7 @@ void alterarDado(base ex[], int i)
         {
             cout << "Digite o novo valor: ";
             cin >> ex[i].dificuldade;
+            alterou = true;
             cout << "Mais alguma alteracao? 'sim' para sim e outro valor qualquer para nao: ";
             cin >> aux;
             if (aux == "sim")
@@ -83,6 +88,7 @@ void alterarDado(base ex[], int i)
         {
             cin.ignore();
             cout << "Insira o novos dados no mesmo formato do arquivo, separando os itens por um ';': ";
+            alterou = true;
             cin >> ex[i].id;
             cin.ignore();
             getline(cin, ex[i].nome, ';');
@@ -117,6 +123,7 @@ int main()
     base ex[100];
     string lixo;
     fstream entrada("dados.csv");
+    bool alterou = false;
 
     if (entrada)
     {
@@ -171,7 +178,7 @@ int main()
                     string altera;
                     cin >> altera;
                     if (altera == "sim")
-                        alterarDado(ex, i);
+                        alterarDado(ex, i, alterou);
                 }
                 i++;
             }
@@ -205,7 +212,7 @@ int main()
                     string altera;
                     cin >> altera;
                     if (altera == "sim")
-                        alterarDado(ex, i);
+                        alterarDado(ex, i, alterou);
                 }
             }
             continua = false;
@@ -218,19 +225,24 @@ int main()
             continua = true;
         }
     }
-    ofstream saida("dados.csv");
-    for (int i = 1; i <= 99; i++)
-    {
-        saida << ex[i].id;
-        saida << " -- ";
-        saida << ex[i].nome;
-        saida << " -- ";
-        saida << ex[i].objetivo;
-        saida << " -- ";
-        saida << ex[i].musculos;
-        saida << " -- ";
-        saida << ex[i].dificuldade;
-        saida << endl;
+    if(alterou){
+        ofstream saida("dados.csv");
+        saida << lixo << "#" << endl;
+        for (int i = 1; i <= 99; i++)
+        {
+            saida << ex[i].id;
+            saida << ";";
+            saida << ex[i].nome;
+            saida << ";";
+            saida << ex[i].objetivo;
+            saida << ";";
+            saida << ex[i].musculos;
+            saida << ";";
+            saida << ex[i].dificuldade;
+            saida << endl;
+        }
+    } else {
+        cout << "Arquivo inalterado!";
     }
     return 0;
 }
