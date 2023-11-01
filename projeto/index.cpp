@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 using namespace std;
-
+//Registro base que vai receber os exercicios do csv.
 struct base
 {
     int id;
@@ -10,13 +10,15 @@ struct base
     string musculos;
     int dificuldade;
 };
+/* Funcao que altera os dados desejados. Enquanto a variavel bool tentarNovamente estive ativa a funcao pede informacoes para o usuario,
+ caso chegue ao fim, ou encontre valores invalidos ela para de ser executada */.
 void alterarDado(base ex[], int i)
 {
     bool tentarNovamente = true;
     string valorAlterar, aux;
+    cout << "O que voce deseja alterar? Digite 'id', 'nome', 'objetivo', 'musculos', 'dificuldade'ou 'tudo'";
     while (tentarNovamente)
     {
-        cout << "O que voce deseja alterar? Digite 'id', 'nome', 'objetivo', 'musculos', 'dificuldade', 'tudo', valores fora desses serao ignorados! ";
         cin >> valorAlterar;
         if (valorAlterar == "id")
         {
@@ -107,7 +109,9 @@ void alterarDado(base ex[], int i)
         }
     }
 }
-
+/* funcao principal, recebe os dados do arquivo csv, executa uma busca no arquivo pelo exercicio informado pelo usuario, caso encontre ela pergunta
+se o mesmo quer alterar algo no arquivo, caso afirmativo ela chama a funcao de alteracao e depois salva tudo que foi alterado no arquivo original,
+sempre que executar algumna mudanca tem disponivel nessa pasta um backup do csv original, so copiar e colar */
 int main()
 {
     base ex[100];
