@@ -16,9 +16,10 @@ void alterarDado(base ex[], int i, bool &alterou)
 {
     bool tentarNovamente = true;
     string valorAlterar;
-    cout << "O que voce deseja alterar? Digite 'id', 'nome', 'objetivo', 'musculos', 'dificuldade'ou 'tudo': ";
+    cout << "O que voce deseja alterar? " << endl;
     while (tentarNovamente)
     {
+        cout << "Digite 'id', 'nome', 'objetivo', 'musculos', 'dificuldade'ou 'tudo': ";
         cin >> valorAlterar;
         if (valorAlterar == "id")
         {
@@ -77,13 +78,15 @@ void alterarDado(base ex[], int i, bool &alterou)
             else
                 tentarNovamente = false;
         }
-    cout << "Mais alguma alteracao? 'sim' para sim e outro valor qualquer para nao: ";
-    string aux;
-    cin >> aux;
-    if (aux == "sim")
-        tentarNovamente = true;
-    else
-        tentarNovamente = false;
+    if(alterou){
+        cout << "Mais alguma alteracao? 'sim' para sim e outro valor qualquer para nao: ";
+        string aux;
+        cin >> aux;
+        if (aux == "sim")
+            tentarNovamente = true;
+        else
+            tentarNovamente = false;
+        }
     }
 }
 /* funcao principal, recebe os dados do arquivo csv, executa uma busca no arquivo pelo exercicio informado pelo usuario, caso encontre ela pergunta
