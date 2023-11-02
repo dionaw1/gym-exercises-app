@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 using namespace std;
-//Registro base que vai receber os exercicios do csv.
+// Registro base que vai receber os exercicios do csv.
 struct base
 {
     int id;
@@ -74,14 +74,15 @@ void alterarDado(base ex[], int i, bool &alterou)
             else
                 tentarNovamente = false;
         }
-    if(alterou){
-        cout << "Mais alguma alteracao? 'sim' para continuar e outro valor qualquer para sair: ";
-        string aux;
-        cin >> aux;
-        if (aux == "sim")
-            tentarNovamente = true;
-        else
-            tentarNovamente = false;
+        if (alterou)
+        {
+            cout << "Mais alguma alteracao? 'sim' para continuar e outro valor qualquer para sair: ";
+            string aux;
+            cin >> aux;
+            if (aux == "sim")
+                tentarNovamente = true;
+            else
+                tentarNovamente = false;
         }
     }
 }
@@ -146,7 +147,7 @@ int main()
                     cout << endl;
                     cout << "Deseja alterar algo nesse exercicio? Digite 'sim' ou outro valor qualquer para nao': ";
                     string altera;
-                    cin >> altera;
+                    getline(cin, altera);
                     achou = true;
                     continua = false;
                     if (altera == "sim")
@@ -162,6 +163,7 @@ int main()
             cout << "Digite o ID do exercicio: ";
             int idBusca;
             cin >> idBusca;
+            cin.ignore();
             bool achou = false;
             for (int i = 1; i <= 99; i++)
             {
@@ -182,7 +184,7 @@ int main()
                     continua = false;
                     cout << "Deseja alterar algo nesse exercicio? Digite 'sim' ou outro valor qualquer para nao': ";
                     string altera;
-                    cin >> altera;
+                    getline(cin, altera);
                     if (altera == "sim")
                         alterarDado(ex, i, alterou);
                 }
@@ -196,8 +198,10 @@ int main()
             cout << "A entrada digitada nao e reconhecida." << endl;
         }
     }
-    ofstream saida("dados.csv");
-    if(alterou){
+
+    if (alterou)
+    {
+        ofstream saida("dados.csv");
         saida << cabecalho << "#" << endl;
         for (int i = 1; i <= 99; i++)
         {
@@ -212,9 +216,11 @@ int main()
             saida << ex[i].dificuldade;
             saida << endl;
         }
-    } else {
+        saida.close();
+    }
+    else
+    {
         cout << "Arquivo inalterado!";
     }
-    saida.close();
     return 0;
 }
