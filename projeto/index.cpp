@@ -113,6 +113,7 @@ int main()
     {
         cout << "Erro com arquivo.";
     }
+    entrada.close();
     cout << "Busca no arquivo. Atualmente podem ser usados o nome e ou ID do exercicio!" << endl;
     bool continua = true;
     while (continua)
@@ -195,8 +196,8 @@ int main()
             cout << "A entrada digitada nao e reconhecida." << endl;
         }
     }
+    ofstream saida("dados.csv");
     if(alterou){
-        ofstream saida("dados.csv");
         saida << cabecalho << "#" << endl;
         for (int i = 1; i <= 99; i++)
         {
@@ -214,5 +215,6 @@ int main()
     } else {
         cout << "Arquivo inalterado!";
     }
+    saida.close();
     return 0;
 }
