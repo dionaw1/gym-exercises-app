@@ -21,30 +21,27 @@ void alterarDado(base ex[], int i, bool &alterou)
     {
         cout << "Digite 'id', 'nome', 'objetivo', 'musculos', 'dificuldade'ou 'tudo': ";
         cin >> valorAlterar;
+        cin.ignore();
         if (valorAlterar == "id")
         {
-            cin.ignore();
             cout << "Digite o novo valor: ";
             cin >> ex[i].id;
             alterou = true;
         }
         else if (valorAlterar == "nome")
         {
-            cin.ignore();
             cout << "Digite o novo valor: ";
             getline(cin, ex[i].nome);
             alterou = true;
         }
         else if (valorAlterar == "objetivo")
         {
-            cin.ignore();
             cout << "Digite o novo valor: ";
             getline(cin, ex[i].objetivo);
             alterou = true;
         }
         else if (valorAlterar == "musculos")
         {
-            cin.ignore();
             cout << "Digite o novo valor: ";
             getline(cin, ex[i].musculos);
             alterou = true;
@@ -57,7 +54,6 @@ void alterarDado(base ex[], int i, bool &alterou)
         }
         else if (valorAlterar == "tudo")
         {
-            cin.ignore();
             cout << "Insira o novos dados no mesmo formato do arquivo, separando os itens por um ';': ";
             alterou = true;
             cin >> ex[i].id;
@@ -79,7 +75,7 @@ void alterarDado(base ex[], int i, bool &alterou)
                 tentarNovamente = false;
         }
     if(alterou){
-        cout << "Mais alguma alteracao? 'sim' para sim e outro valor qualquer para nao: ";
+        cout << "Mais alguma alteracao? 'sim' para continuar e outro valor qualquer para sair: ";
         string aux;
         cin >> aux;
         if (aux == "sim")
@@ -95,13 +91,13 @@ sempre que executar algumna mudanca tem disponivel nessa pasta um backup do csv 
 int main()
 {
     base ex[100];
-    string lixo;
+    string cabecalho;
     fstream entrada("dados.csv");
     bool alterou = false;
 
     if (entrada)
     {
-        getline(entrada, lixo, '#');
+        getline(entrada, cabecalho, '#');
         for (int i = 1; i <= 99; i++)
         {
             entrada >> ex[i].id;
@@ -117,8 +113,8 @@ int main()
     {
         cout << "Erro com arquivo.";
     }
-    bool continua = true;
     cout << "Busca no arquivo. Atualmente podem ser usados o nome e ou ID do exercicio!" << endl;
+    bool continua = true;
     while (continua)
     {
         cout << "Digite 'nome' ou 'id': ";
@@ -147,10 +143,10 @@ int main()
                     cout << " -- ";
                     cout << ex[i].dificuldade;
                     cout << endl;
-                    achou = true;
                     cout << "Deseja alterar algo nesse exercicio? Digite 'sim' ou outro valor qualquer para nao': ";
                     string altera;
                     cin >> altera;
+                    achou = true;
                     continua = false;
                     if (altera == "sim")
                         alterarDado(ex, i, alterou);
@@ -201,7 +197,7 @@ int main()
     }
     if(alterou){
         ofstream saida("dados.csv");
-        saida << lixo << "#" << endl;
+        saida << cabecalho << "#" << endl;
         for (int i = 1; i <= 99; i++)
         {
             saida << ex[i].id;
