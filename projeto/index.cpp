@@ -118,9 +118,9 @@ int main()
         cout << "Erro com arquivo.";
     }
     bool continua = true;
+    cout << "Busca no arquivo. Atualmente podem ser usados o nome e ou ID do exercicio!" << endl;
     while (continua)
     {
-        cout << "Busca no arquivo. Atualmente podem ser usados o nome e ou ID do exercicio!" << endl;
         cout << "Digite 'nome' ou 'id': ";
         string busca;
         cin >> busca;
@@ -151,12 +151,12 @@ int main()
                     cout << "Deseja alterar algo nesse exercicio? Digite 'sim' ou outro valor qualquer para nao': ";
                     string altera;
                     cin >> altera;
+                    continua = false;
                     if (altera == "sim")
                         alterarDado(ex, i, alterou);
                 }
                 i++;
             }
-            continua = false;
             if (!achou)
                 cout << "Exercicio nao encontrado!" << endl;
         }
@@ -182,6 +182,7 @@ int main()
                     cout << ex[i].dificuldade;
                     cout << endl;
                     achou = true;
+                    continua = false;
                     cout << "Deseja alterar algo nesse exercicio? Digite 'sim' ou outro valor qualquer para nao': ";
                     string altera;
                     cin >> altera;
@@ -195,8 +196,7 @@ int main()
         }
         else
         {
-            cout << "A entrada digitada nao e reconhecida, digite 'id' ou 'texto'." << endl;
-            continua = true;
+            cout << "A entrada digitada nao e reconhecida." << endl;
         }
     }
     if(alterou){
