@@ -14,81 +14,59 @@ struct base
  caso chegue ao fim, ou encontre valores invalidos ela para de ser executada */
 void alterarDado(base ex[], int i, bool &alterou)
 {
-    bool tentarNovamente = true;
     string valorAlterar;
     cout << "O que voce deseja alterar? " << endl;
-    while (tentarNovamente)
+    cout << "Digite 'id', 'nome', 'objetivo', 'musculos', 'dificuldade'ou 'tudo': ";
+    cin >> valorAlterar;
+    cin.ignore();
+    if (valorAlterar == "id")
     {
-        cout << "Digite 'id', 'nome', 'objetivo', 'musculos', 'dificuldade'ou 'tudo': ";
-        cin >> valorAlterar;
-        cin.ignore();
-        if (valorAlterar == "id")
-        {
-            cout << "Digite o novo valor: ";
-            cin >> ex[i].id;
-            alterou = true;
-        }
-        else if (valorAlterar == "nome")
-        {
-            cout << "Digite o novo valor: ";
-            getline(cin, ex[i].nome);
-            alterou = true;
-        }
-        else if (valorAlterar == "objetivo")
-        {
-            cout << "Digite o novo valor: ";
-            getline(cin, ex[i].objetivo);
-            alterou = true;
-        }
-        else if (valorAlterar == "musculos")
-        {
-            cout << "Digite o novo valor: ";
-            getline(cin, ex[i].musculos);
-            alterou = true;
-        }
-        else if (valorAlterar == "dificuldade")
-        {
-            cout << "Digite o novo valor: ";
-            cin >> ex[i].dificuldade;
-            alterou = true;
-        }
-        else if (valorAlterar == "tudo")
-        {
-            cout << "Insira o novos dados no mesmo formato do arquivo, separando os itens por um ';': ";
-            alterou = true;
-            cin >> ex[i].id;
-            cin.ignore();
-            getline(cin, ex[i].nome, ';');
-            getline(cin, ex[i].objetivo, ';');
-            getline(cin, ex[i].musculos, ';');
-            cin >> ex[i].dificuldade;
-            cin.ignore();
-        }
-        else
-        {
-            cout << "Valor nao reconhecido. Quer tentar novamente? 'sim' para continuar e outro valor qualquer para sair: ";
-            string aux;
-            cin >> aux;
-            if (aux == "sim")
-                tentarNovamente = true;
-            else
-                tentarNovamente = false;
-        }
-        if (alterou)
-        {
-            cout << "Mais alguma alteracao? 'sim' para continuar e outro valor qualquer para sair: ";
-            string aux;
-            cin >> aux;
-            if (aux == "sim")
-                tentarNovamente = true;
-            else
-                tentarNovamente = false;
-        }
+        cout << "Digite o novo valor: ";
+        cin >> ex[i].id;
+        alterou = true;
     }
+    else if (valorAlterar == "nome")
+    {
+        cout << "Digite o novo valor: ";
+        getline(cin, ex[i].nome);
+        alterou = true;
+    }
+    else if (valorAlterar == "objetivo")
+    {
+        cout << "Digite o novo valor: ";
+        getline(cin, ex[i].objetivo);
+        alterou = true;
+    }
+    else if (valorAlterar == "musculos")
+    {
+        cout << "Digite o novo valor: ";
+        getline(cin, ex[i].musculos);
+        alterou = true;
+    }
+    else if (valorAlterar == "dificuldade")
+    {
+        cout << "Digite o novo valor: ";
+        cin >> ex[i].dificuldade;
+        alterou = true;
+    }
+    else if (valorAlterar == "tudo")
+    {
+        cout << "Insira o novos dados no mesmo formato do arquivo, separando os itens por um ';': ";
+        alterou = true;
+        cin >> ex[i].id;
+        cin.ignore();
+        getline(cin, ex[i].nome, ';');
+        getline(cin, ex[i].objetivo, ';');
+        getline(cin, ex[i].musculos, ';');
+        cin >> ex[i].dificuldade;
+        cin.ignore();
+    }
+    else
+        cout << "Valor nao reconhecido." << endl;
 }
 /* funcao principal, recebe os dados do arquivo csv, executa uma busca no arquivo pelo exercicio informado pelo usuario, caso encontre ela pergunta
 se o mesmo quer alterar algo no arquivo, caso afirmativo ela chama a funcao de alteracao e depois salva tudo que foi alterado no arquivo original,
-sempre que executar algumna mudanca tem disponivel nessa pasta um backup do csv original, so copiar e colar */
+sempre que executar alguma mudanca tem disponivel nessa pasta um backup do csv original, so copiar e colar */
 int main()
 {
     base ex[100];
@@ -149,7 +127,6 @@ int main()
                     string altera;
                     getline(cin, altera);
                     achou = true;
-                    continua = false;
                     if (altera == "sim")
                         alterarDado(ex, i, alterou);
                 }
@@ -157,6 +134,13 @@ int main()
             }
             if (!achou)
                 cout << "Exercicio nao encontrado!" << endl;
+            cout << "Quer consultar ou alterar mais algum outro item? Digite 'sim' para continuar e qualquer outro valor para sair! " << endl;
+            string repetir;
+            cin >> repetir;
+            if (repetir == "sim")
+                continua = true;
+            else
+                continua = false;
         }
         else if (busca == "id")
         {
@@ -181,7 +165,6 @@ int main()
                     cout << ex[i].dificuldade;
                     cout << endl;
                     achou = true;
-                    continua = false;
                     cout << "Deseja alterar algo nesse exercicio? Digite 'sim' ou outro valor qualquer para nao': ";
                     string altera;
                     getline(cin, altera);
@@ -189,9 +172,16 @@ int main()
                         alterarDado(ex, i, alterou);
                 }
             }
-            continua = false;
             if (!achou)
                 cout << "Exercicio nao encontrado!" << endl;
+
+            cout << "Quer consultar ou alterar mais algum outro item? Digite 'sim' para continuar e qualquer outro valor para sair! " << endl;
+            string repetir;
+            cin >> repetir;
+            if (repetir == "sim")
+                continua = true;
+            else
+                continua = false;
         }
         else
         {
@@ -201,6 +191,7 @@ int main()
 
     if (alterou)
     {
+        cout << "Arquivo alterado com sucesso!" << endl;
         ofstream saida("dados.csv");
         saida << cabecalho << "#" << endl;
         for (int i = 1; i <= 99; i++)
