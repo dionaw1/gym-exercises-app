@@ -104,7 +104,8 @@ caso assim seja desejado.*/
 void buscaArquivo(base ex[], bool &alterou)
 {
     cout << "Busca no arquivo. Atualmente podem ser usados o nome e ou ID do exercicio!" << endl;
-    bool continua = true;
+    bool continua = true, achou = false; // booleanos de controle para decidir quando cada loop funciona ou nao de acordo com o usuario.
+    int itemAlterar = -1;                // variavel que sera atribuida o indice do item que o usuario deseja consultar caso seja encontrado o mesmo.
     while (continua)
     {
         cout << "Digite 'nome' ou 'id': ";
@@ -113,10 +114,10 @@ void buscaArquivo(base ex[], bool &alterou)
         cin.ignore();
         if (busca == "nome")
         {
+            achou = false;
             cout << "Digite o nome completo do exercicio: ";
             string exercicio;
             getline(cin, exercicio);
-            bool achou = false;
             int i = 1;
             while (i <= tamanho && !achou)
             {
@@ -133,81 +134,74 @@ void buscaArquivo(base ex[], bool &alterou)
                     cout << " -- ";
                     cout << ex[i].dificuldade;
                     cout << endl;
+                    itemAlterar = i;
                     achou = true;
+                    i++;
                 }
                 i++;
             }
-            if (achou)
-            {
-                cout << "Deseja alterar algo nesse exercicio? Digite 'sim' ou outro valor qualquer para nao': ";
-                string altera;
-                getline(cin, altera);
-                if (altera == "sim")
-                    alterarDado(ex, i, alterou);
-            }
-            else
-                cout << "Exercicio nao encontrado!" << endl;
-
-            cout << "Quer consultar ou alterar mais algum outro item? Digite 'sim' para continuar e qualquer outro valor para sair! " << endl;
-            string repetir;
-            cin >> repetir;
-            cin.ignore();
-            if (repetir == "sim")
-                continua = true;
-            else
-                continua = false;
         }
         else if (busca == "id")
         {
+            achou = false;
             cout << "Digite o ID do exercicio: ";
             int idBusca;
             cin >> idBusca;
             cin.ignore();
-            bool achou = false;
-            int i = 1;
-            while (i <= tamanho && !achou)
+            if(idBusca >= 1)
             {
-                if (ex[i].id == idBusca)
+                int i = 1;
+                while (i <= tamanho && !achou)
                 {
-                    cout << "Exercicio encontrado, os seguintes dados estao cadastrados: " << endl;
-                    cout << ex[i].id;
-                    cout << " -- ";
-                    cout << ex[i].nome;
-                    cout << " -- ";
-                    cout << ex[i].objetivo;
-                    cout << " -- ";
-                    cout << ex[i].musculos;
-                    cout << " -- ";
-                    cout << ex[i].dificuldade;
-                    cout << endl;
-                    achou = true;
+                    if (ex[i].id == idBusca)
+                    {
+                        cout << "Exercicio encontrado, os seguintes dados estao cadastrados: " << endl;
+                        cout << ex[i].id;
+                        cout << " -- ";
+                        cout << ex[i].nome;
+                        cout << " -- ";
+                        cout << ex[i].objetivo;
+                        cout << " -- ";
+                        cout << ex[i].musculos;
+                        cout << " -- ";
+                        cout << ex[i].dificuldade;
+                        cout << endl;
+                        achou = true;
+                        itemAlterar = i;
+                    }
+                    i++;
                 }
-                i++;
             }
-            if (achou)
+            else
             {
-                cout << "Deseja alterar algo nesse exercicio? Digite 'sim' ou outro valor qualquer para nao': ";
-                string altera;
-                getline(cin, altera);
-                if (altera == "sim")
-                    alterarDado(ex, i, alterou);
+                cout << "O id deve ser um numero inteiro maior que 0!" << endl;
             }
-            else
-                cout << "Exercicio nao encontrado!" << endl;
-                
-            cout << "Quer consultar ou alterar mais algum outro item? Digite 'sim' para continuar e qualquer outro valor para sair! " << endl;
-            string repetir;
-            cin >> repetir;
-            cin.ignore();
-            if (repetir == "sim")
-                continua = true;
-            else
-                continua = false;
         }
         else
-        {
             cout << "A entrada digitada nao e reconhecida." << endl;
+
+        if (achou)
+        {
+            cout << "Deseja alterar algo nesse exercicio? Digite 'sim' ou outro valor qualquer para nao': ";
+            string altera;
+            getline(cin, altera);
+            if (altera == "sim")
+                alterarDado(ex, itemAlterar, alterou);
         }
+
+        else
+        {
+            cout << "Exercicio nao encontrado!" << endl;
+        }
+
+        cout << "Quer consultar ou alterar mais algum outro item? Digite 'sim' para continuar e qualquer outro valor para sair! " << endl;
+        string repetir;
+        cin >> repetir;
+
+        if (repetir == "sim")
+            continua = true;
+        else
+            continua = false;
     }
 }
 
