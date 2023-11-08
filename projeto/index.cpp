@@ -2,6 +2,7 @@
 #include <fstream>
 using namespace std;
 const int tamanho = 99;
+bool alterou;
 
 // Registro base que vai receber os exercicios do csv.
 
@@ -14,10 +15,24 @@ struct base
     int dificuldade;
 };
 
+bool repete()
+{
+
+    cout << "Quer consultar ou alterar mais algum outro item? Digite 'sim' para continuar e qualquer outro valor para sair! " << endl;
+
+    string repetir;
+    cin >> repetir;
+
+    if (repetir == "sim")
+        return true;
+    else
+        return false;
+}
+
 /* Funcao que altera os dados desejados. Solicita ao usuario alguns valores e pode alterar na matriz copiada do arquivo,
  caso assim seja desejado. */
 
-void alterarDado(base ex[], int i, bool &alterou)
+bool alterarDado(base ex[], int i, bool &alterou)
 {
     string valorAlterar;
     cout << "O que voce deseja alterar? " << endl;
@@ -30,24 +45,28 @@ void alterarDado(base ex[], int i, bool &alterou)
         cin >> ex[i].id;
         cin.ignore();
         alterou = true;
+        return true;
     }
     else if (valorAlterar == "nome")
     {
         cout << "Digite o novo valor: ";
         getline(cin, ex[i].nome);
         alterou = true;
+        return true;
     }
     else if (valorAlterar == "objetivo")
     {
         cout << "Digite o novo valor: ";
         getline(cin, ex[i].objetivo);
         alterou = true;
+        return true;
     }
     else if (valorAlterar == "musculos")
     {
         cout << "Digite o novo valor: ";
         getline(cin, ex[i].musculos);
         alterou = true;
+        return true;
     }
     else if (valorAlterar == "dificuldade")
     {
@@ -55,11 +74,11 @@ void alterarDado(base ex[], int i, bool &alterou)
         cin >> ex[i].dificuldade;
         cin.ignore();
         alterou = true;
+        return true;
     }
     else if (valorAlterar == "tudo")
     {
         cout << "Insira o novos dados no mesmo formato do arquivo, separando os itens por um ';': ";
-        alterou = true;
         cin >> ex[i].id;
         cin.ignore();
         getline(cin, ex[i].nome, ';');
@@ -67,15 +86,20 @@ void alterarDado(base ex[], int i, bool &alterou)
         getline(cin, ex[i].musculos, ';');
         cin >> ex[i].dificuldade;
         cin.ignore();
+        alterou = true;
+        return true;
     }
     else
-        cout << "Valor nao reconhecido." << endl;
+    {
+        alterou = false;
+        return false;
+    }
 }
 
 /*Funcao que vai pegar os dados que estao no arquivo e vai coloca-los em uma matriz 'ex' que vai ser usada nas outras funcoes para realizar as
 operacoes cabiveis. */
 
-void receberArquivo(base ex[], string &cabecalho)
+bool receberArquivo(base ex[], string &cabecalho)
 {
     fstream entrada("dados.csv");
     if (entrada)
@@ -91,17 +115,20 @@ void receberArquivo(base ex[], string &cabecalho)
             entrada >> ex[i].dificuldade;
             entrada.ignore();
         }
+        entrada.close();
+        return true;
     }
     else
+    {
         cout << "Erro com o arquivo!";
-
-    entrada.close();
+        return false;
+    }
 }
 
 /*Essa funcao vai buscar se o exercicio que o usuario que consultar esta presente no arquivo, pode tambem chamar a funcao de alteracao
 caso assim seja desejado.*/
 
-void buscaArquivo(base ex[], bool &alterou)
+void buscaArquivo(base ex[])
 {
     cout << "Busca no arquivo. Atualmente podem ser usados o nome e ou ID do exercicio!" << endl;
     bool continua = true, achou = false; // booleanos de controle para decidir quando cada loop funciona ou nao de acordo com o usuario.
@@ -136,19 +163,17 @@ void buscaArquivo(base ex[], bool &alterou)
                     cout << endl;
                     itemAlterar = i;
                     achou = true;
-                    i++;
                 }
                 i++;
             }
         }
         else if (busca == "id")
         {
-            achou = false;
             cout << "Digite o ID do exercicio: ";
             int idBusca;
             cin >> idBusca;
             cin.ignore();
-            if(idBusca >= 1)
+            if (idBusca >= 1)
             {
                 int i = 1;
                 while (i <= tamanho && !achou)
@@ -173,9 +198,7 @@ void buscaArquivo(base ex[], bool &alterou)
                 }
             }
             else
-            {
                 cout << "O id deve ser um numero inteiro maior que 0!" << endl;
-            }
         }
         else
             cout << "A entrada digitada nao e reconhecida." << endl;
@@ -190,15 +213,9 @@ void buscaArquivo(base ex[], bool &alterou)
         }
 
         else
-        {
             cout << "Exercicio nao encontrado!" << endl;
-        }
 
-        cout << "Quer consultar ou alterar mais algum outro item? Digite 'sim' para continuar e qualquer outro valor para sair! " << endl;
-        string repetir;
-        cin >> repetir;
-
-        if (repetir == "sim")
+        if (repete())
             continua = true;
         else
             continua = false;
@@ -233,16 +250,13 @@ int main()
 {
     base ex[100];
     string cabecalho = "";
-    bool alterou = false;
-    receberArquivo(ex, cabecalho);
-    buscaArquivo(ex, alterou);
-    if (alterou)
+    if (receberArquivo(ex, cabecalho))
     {
-        escreverDados(ex, cabecalho);
-    }
-    else
-    {
-        cout << "Arquivo inalterado!";
+        buscaArquivo(ex);
+        if (alterou)
+            escreverDados(ex, cabecalho);
+        else
+            cout << "Arquivo inalterado!";
     }
     return 0;
 }
