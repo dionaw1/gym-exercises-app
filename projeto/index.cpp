@@ -4,7 +4,7 @@ using namespace std;
 const int tamanho = 99;
 bool alterou;
 
-// Registro base que vai receber os exercicios do csv.
+// Registro base que vai receber as informações do arquivo.
 
 struct base
 {
@@ -15,10 +15,12 @@ struct base
     int dificuldade;
 };
 
+// Função que vai ser usada para controlar a repetição de alguns laços.
+
 bool repete()
 {
 
-    cout << "Quer consultar ou alterar mais algum outro item? Digite 'sim' para continuar e qualquer outro valor para sair! " << endl;
+    cout << "Quer consultar outro item? Digite 'sim' para continuar e qualquer outro valor para sair! " << endl;
 
     string repetir;
     cin >> repetir;
@@ -29,14 +31,12 @@ bool repete()
         return false;
 }
 
-/* Funcao que altera os dados desejados. Solicita ao usuario alguns valores e pode alterar na matriz copiada do arquivo,
- caso assim seja desejado. */
+// Função que altera os dados. Solicita ao usuario valores e pode alterar no vetor de registros.
 
 bool alterarDado(base ex[], int i, bool &alterou)
 {
     string valorAlterar;
-    cout << "O que voce deseja alterar? " << endl;
-    cout << "Digite 'id', 'nome', 'objetivo', 'musculos', 'dificuldade'ou 'tudo': ";
+    cout << "O que você deseja alterar? Digite uma das seguintes opções:\n'id' - 'nome' - 'objetivo' - 'musculos' - 'dificuldade' - 'tudo'\n";
     cin >> valorAlterar;
     cin.ignore();
     if (valorAlterar == "id")
@@ -91,13 +91,13 @@ bool alterarDado(base ex[], int i, bool &alterou)
     }
     else
     {
+        cout << "Valor inserido não reconhecido." << endl;
         alterou = false;
         return false;
     }
 }
 
-/*Funcao que vai pegar os dados que estao no arquivo e vai coloca-los em uma matriz 'ex' que vai ser usada nas outras funcoes para realizar as
-operacoes cabiveis. */
+//Função que lê as informações no arquivo e repassa para um vetor 'ex' que vai ser usado em outras funções.
 
 bool receberArquivo(base ex[], string &cabecalho)
 {
@@ -125,23 +125,23 @@ bool receberArquivo(base ex[], string &cabecalho)
     }
 }
 
-/*Essa funcao vai buscar se o exercicio que o usuario que consultar esta presente no arquivo, pode tambem chamar a funcao de alteracao
-caso assim seja desejado.*/
+//Função que busca se o exercício que o usuario que consultar está presente no arquivo.
 
 void buscaArquivo(base ex[])
 {
     cout << "Busca no arquivo. Atualmente podem ser usados o nome e ou ID do exercicio!" << endl;
-    bool continua = true, achou = false; // booleanos de controle para decidir quando cada loop funciona ou nao de acordo com o usuario.
-    int itemAlterar = -1;                // variavel que sera atribuida o indice do item que o usuario deseja consultar caso seja encontrado o mesmo.
+    bool continua = true;
+    bool achou = false;
+    int itemAlterar = -1;
     while (continua)
     {
         cout << "Digite 'nome' ou 'id': ";
         string busca;
         cin >> busca;
         cin.ignore();
+
         if (busca == "nome")
         {
-            achou = false;
             cout << "Digite o nome completo do exercicio: ";
             string exercicio;
             getline(cin, exercicio);
@@ -161,6 +161,7 @@ void buscaArquivo(base ex[])
                     cout << " -- ";
                     cout << ex[i].dificuldade;
                     cout << endl;
+
                     itemAlterar = i;
                     achou = true;
                 }
@@ -191,6 +192,7 @@ void buscaArquivo(base ex[])
                         cout << " -- ";
                         cout << ex[i].dificuldade;
                         cout << endl;
+
                         achou = true;
                         itemAlterar = i;
                     }
@@ -222,7 +224,7 @@ void buscaArquivo(base ex[])
     }
 }
 
-/*Funcao que pega os dados da matriz 'ex' que foi usada pra manipular os valores e salva as alteracoes no arquivo original*/
+//Função que salva as modificações do vetor 'ex', usado pra manipular os valores e salva as açterações no arquivo
 
 void escreverDados(base ex[], string &cabecalho)
 {
@@ -244,8 +246,8 @@ void escreverDados(base ex[], string &cabecalho)
     }
     saida.close();
 }
-/* Funcao principal, usada pra chamar as outras funcoes do codigo e no fim faz uma verificacao se deve chamar a funcao de escrever no
-arquivo caso ele tenha sido alterado, caso negativo apenas exibe uma mensagem. */
+// Função principal, usada pra chamar as outras funcoes do codigo, verificando se certas condições são atendidas.
+
 int main()
 {
     base ex[100];
