@@ -211,7 +211,7 @@ void buscaArquivo(base vetorCompleto[], int vetorModificado[])
 
         if (achou)
         {
-            cout << "Deseja alterar algo nesse exercicio? Digite 'sim' ou outro valor qualquer para nao': ";
+            cout << "\nDeseja alterar algo nesse exercicio? Digite 'sim' ou outro valor qualquer para nao': ";
             string altera;
             getline(cin, altera);
             if (altera == "sim")
