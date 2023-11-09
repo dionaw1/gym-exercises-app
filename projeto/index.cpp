@@ -14,7 +14,8 @@ struct base
     int dificuldade;
 };
 
-// Função que vai ser usada para controlar a repetição de alguns laços.
+/* A função permite ao usuário decidir se deseja continuar consultando itens.
+Solicita a escolha de continuar digitando 'sim' para continuar ou qualquer outra tecla para sair.*/
 
 bool repete()
 {
@@ -30,7 +31,9 @@ bool repete()
         return false;
 }
 
-// Função que altera os dados. Solicita ao usuario valores e pode alterar no vetor de registros.
+/* Função que permite a modificação dos dados de um elemento específico no vetor 'vetorCompleto[]',
+baseando-se na escolha do usuário. Dependendo da mesma, os dados do vetor são modificados, 
+a variável 'vetorModificado[]' marca o índice correspondente.*/
 
 void alterarDado(base vetorCompleto[], int vetorModificado[], int i)
 {
@@ -97,7 +100,8 @@ void alterarDado(base vetorCompleto[], int vetorModificado[], int i)
     }
 }
 
-// Função que lê as informações no arquivo e repassa para um vetor 'vetorCompleto' que vai ser usado em outras funções.
+/* Função que lê um arquivo chamado "dados.csv" e carrega os dados para um vetor de estruturas 'vetorCompleto[]'.
+Retorna um booleano indicando se o carregamento do arquivo foi bem-sucedido ou não.*/
 
 bool receberArquivo(base vetorCompleto[])
 {
@@ -127,9 +131,13 @@ bool receberArquivo(base vetorCompleto[])
     }
 }
 
-// Função que busca se o exercício que o usuario que consultar está presente no arquivo.
+/* Função que busca se o exercício que o usuário deseja consultar está presente no arquivo.
+Retorna um tipo bool para verificar possíveis erros que podem ocorrer dependendo da entrada do usuário.
+Por exemplo, se um texto do tipo string for inserido no campo de ID, que deveria ser um número inteiro, isso pode gerar um erro que encerrará 
+o código prematuramente e imprimirá textos indesejados. Nesta disciplina, ainda não foram introduzidos métodos de verificação do tipo de dado inserido em uma variável. 
+Portanto, optei por seguir dessa maneira.*/
 
-void buscaArquivo(base vetorCompleto[], int vetorModificado[])
+bool buscaArquivo(base vetorCompleto[], int vetorModificado[])
 {
     bool continua = true;
     while (continua)
@@ -178,7 +186,7 @@ void buscaArquivo(base vetorCompleto[], int vetorModificado[])
             int idBusca;
             cin >> idBusca;
             cin.ignore();
-            if (idBusca >= 1)
+            if (idBusca > 0)
             {
                 int i = 1;
                 while (i <= tamanho && !achou)
@@ -204,7 +212,10 @@ void buscaArquivo(base vetorCompleto[], int vetorModificado[])
                 }
             }
             else
+            {
                 cout << "O id deve ser um numero inteiro maior que 0!" << endl;
+                return false;
+            }
         }
         else
             cout << "A entrada digitada nao e reconhecida." << endl;
@@ -226,6 +237,7 @@ void buscaArquivo(base vetorCompleto[], int vetorModificado[])
         else
             continua = false;
     }
+    return true;
 }
 
 // Função que salva as modificações do vetor 'vetorCompleto', usado pra manipular os valores e salva as açterações no arquivo
@@ -313,8 +325,8 @@ int main()
 
     if (receberArquivo(vetorCompleto))
     {
-        buscaArquivo(vetorCompleto, vetorModificado);
-        escreverDados(vetorCompleto, vetorModificado);
+        if (buscaArquivo(vetorCompleto, vetorModificado))
+            escreverDados(vetorCompleto, vetorModificado);
     }
     else
     {
