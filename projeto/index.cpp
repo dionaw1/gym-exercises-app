@@ -2,7 +2,6 @@
 #include <fstream>
 using namespace std;
 const int tamanho = 99;
-bool alterou;
 
 // Registro base que vai receber as informações do arquivo.
 
@@ -33,13 +32,15 @@ bool repete()
 
 // Função que altera os dados. Solicita ao usuario valores e pode alterar no vetor de registros.
 
-void alterarDado(base vetorCompleto[], int vetorModificado[], int i, bool &alterou)
+void alterarDado(base vetorCompleto[], int vetorModificado[], int i)
 {
     string valorAlterar, nomeAlterar, musculosAlterar, objetivoAlterar;
     int idAlterar, dificuldadeAlterar;
+
     cout << "O que você deseja alterar? Digite uma das seguintes opções:\n'id' - 'nome' - 'objetivo' - 'musculos' - 'dificuldade' - 'tudo': ";
     cin >> valorAlterar;
     cin.ignore();
+
     if (valorAlterar == "id")
     {
         cout << "Digite o novo valor: ";
@@ -48,7 +49,7 @@ void alterarDado(base vetorCompleto[], int vetorModificado[], int i, bool &alter
         vetorCompleto[i].id = idAlterar;
         vetorModificado[i] = 1;
 
-        alterou = true;
+        
     }
     else if (valorAlterar == "nome")
     {
@@ -57,7 +58,7 @@ void alterarDado(base vetorCompleto[], int vetorModificado[], int i, bool &alter
         vetorCompleto[i].nome = nomeAlterar;
         vetorModificado[i] = 1;
 
-        alterou = true;
+        
     }
     else if (valorAlterar == "objetivo")
     {
@@ -66,7 +67,7 @@ void alterarDado(base vetorCompleto[], int vetorModificado[], int i, bool &alter
         vetorCompleto[i].objetivo = objetivoAlterar;
         vetorModificado[i] = 1;
 
-        alterou = true;
+        
     }
     else if (valorAlterar == "musculos")
     {
@@ -75,7 +76,7 @@ void alterarDado(base vetorCompleto[], int vetorModificado[], int i, bool &alter
         vetorCompleto[i].musculos = musculosAlterar;
         vetorModificado[i] = 1;
 
-        alterou = true;
+        
     }
     else if (valorAlterar == "dificuldade")
     {
@@ -85,11 +86,12 @@ void alterarDado(base vetorCompleto[], int vetorModificado[], int i, bool &alter
         vetorCompleto[i].dificuldade = dificuldadeAlterar;
         vetorModificado[i] = 1;
 
-        alterou = true;
+        
     }
     else if (valorAlterar == "tudo")
     {
         vetorModificado[i] = 1;
+
         cout << "Insira o novos dados no mesmo formato do arquivo, separando os itens por um ';': ";
 
         cin >> idAlterar;
@@ -109,12 +111,12 @@ void alterarDado(base vetorCompleto[], int vetorModificado[], int i, bool &alter
         cin.ignore();
         vetorCompleto[i].dificuldade = dificuldadeAlterar;
 
-        alterou = true;
+        
     }
     else
     {
         cout << "Valor inserido não reconhecido." << endl;
-        alterou = false;
+        
     }
 }
 
@@ -151,13 +153,13 @@ bool receberArquivo(base vetorCompleto[])
 
 void buscaArquivo(base vetorCompleto[], int vetorModificado[])
 {
-    cout << "Busca no arquivo. Atualmente podem ser usados o nome e ou ID do exercicio!" << endl;
     bool continua = true;
-    bool achou = false;
-    alterou = false;
-    int itemAlterar = -1;
     while (continua)
     {
+    cout << "Busca no arquivo. Atualmente podem ser usados o nome e ou ID do exercicio!" << endl;
+    bool achou = false;
+    
+    int itemAlterar = -1;
         cout << "Digite 'nome' ou 'id': ";
         string busca;
         cin >> busca;
@@ -234,7 +236,7 @@ void buscaArquivo(base vetorCompleto[], int vetorModificado[])
             string altera;
             getline(cin, altera);
             if (altera == "sim")
-                alterarDado(vetorCompleto, vetorModificado, itemAlterar, alterou);
+                alterarDado(vetorCompleto, vetorModificado, itemAlterar);
         }
 
         else
