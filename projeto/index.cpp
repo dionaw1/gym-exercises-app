@@ -19,7 +19,7 @@ struct base
 bool repete()
 {
 
-    cout << "Quer consultar outro item? Digite 'sim' para continuar e qualquer outro valor para sair! " << endl;
+    cout << "\nDeseja consultar outro item? Digite 'sim' para continuar ou qualquer outra tecla para sair: ";
 
     string repetir;
     cin >> repetir;
@@ -36,7 +36,8 @@ void alterarDado(base vetorCompleto[], int vetorModificado[], int i)
 {
     string valorAlterar;
 
-    cout << "O que você deseja alterar? Digite uma das seguintes opções:\n'id' - 'nome' - 'objetivo' - 'musculos' - 'dificuldade' - 'tudo': ";
+    cout << "\nO que você deseja alterar?\nOpções: 'id', 'nome', 'objetivo', 'musculos', 'dificuldade' ou 'tudo': ";
+
     cin >> valorAlterar;
     cin.ignore();
 
@@ -92,7 +93,7 @@ void alterarDado(base vetorCompleto[], int vetorModificado[], int i)
     }
     else
     {
-        cout << "Valor inserido não reconhecido." << endl;
+        cout << "Opção inválida, tente novamente." << endl;
     }
 }
 
@@ -116,11 +117,12 @@ bool receberArquivo(base vetorCompleto[])
             entrada.ignore();
         }
         entrada.close();
+        cout << "Arquivo carregado com sucesso!" << endl;
         return true;
     }
     else
     {
-        cout << "Erro com o arquivo!";
+        cout << "Erro ao carregar o arquivo.";
         return false;
     }
 }
@@ -132,7 +134,8 @@ void buscaArquivo(base vetorCompleto[], int vetorModificado[])
     bool continua = true;
     while (continua)
     {
-        cout << "Busca no arquivo. Atualmente podem ser usados o nome e ou ID do exercicio!" << endl;
+        cout << "Buscar no arquivo. Use 'nome' ou 'id' do exercício." << endl;
+
         bool achou = false;
 
         int itemAlterar = -1;
@@ -151,7 +154,7 @@ void buscaArquivo(base vetorCompleto[], int vetorModificado[])
             {
                 if (vetorCompleto[i].nome == exercicio)
                 {
-                    cout << "Exercicio encontrado, os seguintes dados estao cadastrados: " << endl;
+                    cout << "Exercicio encontrado, os seguintes dados estao cadastrados: \n" << endl;
                     cout << vetorCompleto[i].id;
                     cout << " -- ";
                     cout << vetorCompleto[i].nome;
@@ -230,7 +233,6 @@ void buscaArquivo(base vetorCompleto[], int vetorModificado[])
 void escreverDados(base vetorCompleto[], int vetorModificado[])
 {
 
-    bool entradaInvalida = false;
     bool foiModificado = false;
     string entrada;
 
@@ -240,11 +242,12 @@ void escreverDados(base vetorCompleto[], int vetorModificado[])
             foiModificado = true;
     }
     if (!foiModificado)
-        cout << "Arquivo inalterado.";
+        cout << "Nenhuma alteração feita no arquivo.";
     else
     {
         ofstream saida("saida.csv");
-        cout << "Deseja salvar todos os dados no arquivo ou apenas aqueles modificados?\n";
+        cout << "\nDeseja salvar todos os dados no arquivo ou apenas aqueles modificados?\nDigite 'todos' para salvar todos os dados ou 'modificados' para apenas as alterações: ";
+
         do
         {
             cout << "Digite 'todos' para todos os dados ou 'modificados' para apenas salvar os que foram alterados: ";
@@ -253,8 +256,6 @@ void escreverDados(base vetorCompleto[], int vetorModificado[])
 
             if (entrada == "todos")
             {
-                entradaInvalida = false;
-
                 for (int i = 1; i <= tamanho; i++)
                 {
                     saida << vetorCompleto[i].id;
@@ -271,8 +272,6 @@ void escreverDados(base vetorCompleto[], int vetorModificado[])
             }
             else if (entrada == "modificados")
             {
-                entradaInvalida = false;
-
                 for (int i = 1; i <= tamanho; i++)
                 {
                     if (vetorModificado[i] == 1)
@@ -291,8 +290,9 @@ void escreverDados(base vetorCompleto[], int vetorModificado[])
                 }
             }
             else
-                entradaInvalida = true;
-        } while (entradaInvalida);
+                cout << "Opção inválida, tente novamente." << endl;
+
+        } while (entrada != "todos" && entrada != "modificados");
 
         cout << "Arquivo alterado com sucesso!" << endl;
 
