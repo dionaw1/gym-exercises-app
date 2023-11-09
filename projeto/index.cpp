@@ -46,32 +46,24 @@ void alterarDado(base vetorCompleto[], int vetorModificado[], int i)
         cin >> vetorCompleto[i].id;
         cin.ignore();
         vetorModificado[i] = 1;
-
-        
     }
     else if (valorAlterar == "nome")
     {
         cout << "Digite o novo valor: ";
         getline(cin, vetorCompleto[i].nome);
         vetorModificado[i] = 1;
-
-        
     }
     else if (valorAlterar == "objetivo")
     {
         cout << "Digite o novo valor: ";
         getline(cin, vetorCompleto[i].objetivo);
         vetorModificado[i] = 1;
-
-        
     }
     else if (valorAlterar == "musculos")
     {
         cout << "Digite o novo valor: ";
         getline(cin, vetorCompleto[i].musculos);
         vetorModificado[i] = 1;
-
-        
     }
     else if (valorAlterar == "dificuldade")
     {
@@ -79,8 +71,6 @@ void alterarDado(base vetorCompleto[], int vetorModificado[], int i)
         cin >> vetorCompleto[i].dificuldade;
         cin.ignore();
         vetorModificado[i] = 1;
-
-        
     }
     else if (valorAlterar == "tudo")
     {
@@ -99,12 +89,10 @@ void alterarDado(base vetorCompleto[], int vetorModificado[], int i)
 
         cin >> vetorCompleto[i].dificuldade;
         cin.ignore();
-        
     }
     else
     {
         cout << "Valor inserido não reconhecido." << endl;
-        
     }
 }
 
@@ -144,10 +132,10 @@ void buscaArquivo(base vetorCompleto[], int vetorModificado[])
     bool continua = true;
     while (continua)
     {
-    cout << "Busca no arquivo. Atualmente podem ser usados o nome e ou ID do exercicio!" << endl;
-    bool achou = false;
-    
-    int itemAlterar = -1;
+        cout << "Busca no arquivo. Atualmente podem ser usados o nome e ou ID do exercicio!" << endl;
+        bool achou = false;
+
+        int itemAlterar = -1;
         cout << "Digite 'nome' ou 'id': ";
         string busca;
         cin >> busca;
@@ -243,41 +231,31 @@ void escreverDados(base vetorCompleto[], int vetorModificado[])
 {
 
     bool entradaInvalida = false;
+    bool foiModificado = false;
     string entrada;
-    ofstream saida("saida.csv");
 
-    cout << "Deseja salvar todos os dados no arquivo ou apenas aqueles modificados?\n";
-    do
+    for (int i = 0; i < 100; i++)
     {
-        cout << "Digite 'todos' para todos os dados ou 'modificados' para apenas salvar os que foram alterados: ";
-        cin >> entrada;
-        cin.ignore();
-
-        if (entrada == "todos")
+        if (vetorModificado[i] == 1)
+            foiModificado = true;
+    }
+    if (!foiModificado)
+        cout << "Arquivo inalterado.";
+    else
+    {
+        ofstream saida("saida.csv");
+        cout << "Deseja salvar todos os dados no arquivo ou apenas aqueles modificados?\n";
+        do
         {
-            entradaInvalida = false;
+            cout << "Digite 'todos' para todos os dados ou 'modificados' para apenas salvar os que foram alterados: ";
+            cin >> entrada;
+            cin.ignore();
 
-            for (int i = 1; i <= tamanho; i++)
+            if (entrada == "todos")
             {
-                saida << vetorCompleto[i].id;
-                saida << ";";
-                saida << vetorCompleto[i].nome;
-                saida << ";";
-                saida << vetorCompleto[i].objetivo;
-                saida << ";";
-                saida << vetorCompleto[i].musculos;
-                saida << ";";
-                saida << vetorCompleto[i].dificuldade;
-                saida << endl;
-            }
-        }
-        else if (entrada == "modificados")
-        {
-            entradaInvalida = false;
+                entradaInvalida = false;
 
-            for (int i = 1; i <= tamanho; i++)
-            {
-                if (vetorModificado[i] == 1)
+                for (int i = 1; i <= tamanho; i++)
                 {
                     saida << vetorCompleto[i].id;
                     saida << ";";
@@ -291,14 +269,35 @@ void escreverDados(base vetorCompleto[], int vetorModificado[])
                     saida << endl;
                 }
             }
-        }
-        else
-            entradaInvalida = true;
-    } while (entradaInvalida);
+            else if (entrada == "modificados")
+            {
+                entradaInvalida = false;
 
-    cout << "Arquivo alterado com sucesso!" << endl;
+                for (int i = 1; i <= tamanho; i++)
+                {
+                    if (vetorModificado[i] == 1)
+                    {
+                        saida << vetorCompleto[i].id;
+                        saida << ";";
+                        saida << vetorCompleto[i].nome;
+                        saida << ";";
+                        saida << vetorCompleto[i].objetivo;
+                        saida << ";";
+                        saida << vetorCompleto[i].musculos;
+                        saida << ";";
+                        saida << vetorCompleto[i].dificuldade;
+                        saida << endl;
+                    }
+                }
+            }
+            else
+                entradaInvalida = true;
+        } while (entradaInvalida);
 
-    saida.close();
+        cout << "Arquivo alterado com sucesso!" << endl;
+
+        saida.close();
+    }
 }
 // Função principal, usada pra chamar as outras funcoes do codigo, verificando se certas condições são atendidas.
 
