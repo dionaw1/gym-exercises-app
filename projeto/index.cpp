@@ -34,8 +34,7 @@ bool repete()
 
 void alterarDado(base vetorCompleto[], int vetorModificado[], int i)
 {
-    string valorAlterar, nomeAlterar, musculosAlterar, objetivoAlterar;
-    int idAlterar, dificuldadeAlterar;
+    string valorAlterar;
 
     cout << "O que você deseja alterar? Digite uma das seguintes opções:\n'id' - 'nome' - 'objetivo' - 'musculos' - 'dificuldade' - 'tudo': ";
     cin >> valorAlterar;
@@ -44,9 +43,8 @@ void alterarDado(base vetorCompleto[], int vetorModificado[], int i)
     if (valorAlterar == "id")
     {
         cout << "Digite o novo valor: ";
-        cin >> idAlterar;
+        cin >> vetorCompleto[i].id;
         cin.ignore();
-        vetorCompleto[i].id = idAlterar;
         vetorModificado[i] = 1;
 
         
@@ -54,8 +52,7 @@ void alterarDado(base vetorCompleto[], int vetorModificado[], int i)
     else if (valorAlterar == "nome")
     {
         cout << "Digite o novo valor: ";
-        getline(cin, nomeAlterar);
-        vetorCompleto[i].nome = nomeAlterar;
+        getline(cin, vetorCompleto[i].nome);
         vetorModificado[i] = 1;
 
         
@@ -63,8 +60,7 @@ void alterarDado(base vetorCompleto[], int vetorModificado[], int i)
     else if (valorAlterar == "objetivo")
     {
         cout << "Digite o novo valor: ";
-        getline(cin, objetivoAlterar);
-        vetorCompleto[i].objetivo = objetivoAlterar;
+        getline(cin, vetorCompleto[i].objetivo);
         vetorModificado[i] = 1;
 
         
@@ -72,8 +68,7 @@ void alterarDado(base vetorCompleto[], int vetorModificado[], int i)
     else if (valorAlterar == "musculos")
     {
         cout << "Digite o novo valor: ";
-        getline(cin, musculosAlterar);
-        vetorCompleto[i].musculos = musculosAlterar;
+        getline(cin, vetorCompleto[i].musculos);
         vetorModificado[i] = 1;
 
         
@@ -81,9 +76,8 @@ void alterarDado(base vetorCompleto[], int vetorModificado[], int i)
     else if (valorAlterar == "dificuldade")
     {
         cout << "Digite o novo valor: ";
-        cin >> dificuldadeAlterar;
+        cin >> vetorCompleto[i].dificuldade;
         cin.ignore();
-        vetorCompleto[i].dificuldade = dificuldadeAlterar;
         vetorModificado[i] = 1;
 
         
@@ -94,23 +88,17 @@ void alterarDado(base vetorCompleto[], int vetorModificado[], int i)
 
         cout << "Insira o novos dados no mesmo formato do arquivo, separando os itens por um ';': ";
 
-        cin >> idAlterar;
+        cin >> vetorCompleto[i].id;
         cin.ignore();
-        vetorCompleto[i].id = idAlterar;
 
-        getline(cin, nomeAlterar, ';');
-        vetorCompleto[i].nome = nomeAlterar;
+        getline(cin, vetorCompleto[i].nome, ';');
 
-        getline(cin, objetivoAlterar, ';');
-        vetorCompleto[i].objetivo = objetivoAlterar;
+        getline(cin, vetorCompleto[i].objetivo, ';');
 
         getline(cin, vetorCompleto[i].musculos, ';');
-        vetorCompleto[i].musculos = musculosAlterar;
 
         cin >> vetorCompleto[i].dificuldade;
         cin.ignore();
-        vetorCompleto[i].dificuldade = dificuldadeAlterar;
-
         
     }
     else
