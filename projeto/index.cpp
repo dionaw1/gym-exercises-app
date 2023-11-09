@@ -185,7 +185,7 @@ void buscaArquivo(base vetorCompleto[], int vetorModificado[])
                 {
                     if (vetorCompleto[i].id == idBusca)
                     {
-                        cout << "Exercicio encontrado, os seguintes dados estao cadastrados: " << endl;
+                        cout << "Exercicio encontrado, os seguintes dados estao cadastrados: \n" << endl;
                         cout << vetorCompleto[i].id;
                         cout << " -- ";
                         cout << vetorCompleto[i].nome;
