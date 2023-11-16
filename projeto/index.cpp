@@ -2,6 +2,7 @@
 #include <fstream>
 #include <algorithm>
 using namespace std;
+int capacidade = 150;
 int tamanho = 0;
 
 // Registro base que vai receber as informações do arquivo.
@@ -35,20 +36,6 @@ bool repete()
             return false;
     }
     return true;
-}
-
-// Funcao para aumentar o tamanho do vetor caso necessario.
-
-void aumentarVetor(int tamanho, int &capacidade, base *&ptrVetorCompleto)
-{
-    if (tamanho == capacidade)
-    {
-        base *novoVetor = new base[capacidade + 10];
-        copy(ptrVetorCompleto, ptrVetorCompleto + tamanho, novoVetor);
-        delete[] ptrVetorCompleto;
-        ptrVetorCompleto = novoVetor;
-        capacidade += 10;
-    }
 }
 
 /* Função que permite a modificação dos dados de um elemento específico no vetor 'ptrVetorCompleto[]',
@@ -122,31 +109,30 @@ void alterarDado(base *ptrVetorCompleto, int *ptrVetorModificado, int i)
 /* Função que lê um arquivo chamado "dados.csv" e carrega os dados para um vetor de estruturas 'ptrVetorCompleto[]'.
 Retorna um booleano indicando se o carregamento do arquivo foi bem-sucedido ou não.*/
 
-bool receberArquivo(base *ptrVetorCompleto, int &capacidade)
+bool receberArquivo(base *ptrVetorCompleto)
 {
     string cabecalho;
     fstream entrada("dados.csv");
     if (entrada)
     {
         getline(entrada, cabecalho, '#');
-        while (tamanho < capacidade &&
-               entrada >> ptrVetorCompleto[tamanho].id &&
-               entrada.ignore() &&
-               getline(entrada, ptrVetorCompleto[tamanho].nome, ';') &&
-               getline(entrada, ptrVetorCompleto[tamanho].objetivo, ';') &&
-               getline(entrada, ptrVetorCompleto[tamanho].musculos, ';') &&
-               entrada >> ptrVetorCompleto[tamanho].dificuldade &&
-               entrada.ignore())
+        int i = 0;
+        while (i < capacidade)
         {
             tamanho++;
-
-            if (tamanho == capacidade)
-            {
-                aumentarVetor(tamanho, capacidade, ptrVetorCompleto);
-            }
+            entrada >> ptrVetorCompleto[i].id;
+            entrada.ignore();
+            getline(entrada, ptrVetorCompleto[i].nome, ';');
+            getline(entrada, ptrVetorCompleto[i].objetivo, ';');
+            getline(entrada, ptrVetorCompleto[i].musculos, ';');
+            entrada >> ptrVetorCompleto[i].dificuldade;
+            entrada.ignore();
+            i++;
         }
+        tamanho = i;
         entrada.close();
         cout << "Arquivo carregado com sucesso!" << endl;
+        entrada.close();
         return true;
     }
     else
@@ -205,27 +191,8 @@ bool buscaArquivo(base *ptrVetorCompleto, int *ptrVetorModificado)
                 }
                 i++;
             }
-            if (achou)
-            {
-                cout << "\nDeseja alterar algo nesse exercicio?\n";
-                int altera;
-                do
-                {
-                    cout << "1 - Alterar.\n2 - Nao alterar.\n";
-                    cin >> altera;
-                } while (altera != 1 && altera != 2);
-                if (altera == 1)
-                    alterarDado(ptrVetorCompleto, ptrVetorModificado, itemAlterar);
-            }
-
-            else
-                cout << "Exercicio nao encontrado!" << endl;
-
-            if (repete())
-                continua = true;
-            else
-                continua = false;
         }
+
         // Busca por ID.
         else if (busca == 2)
         {
@@ -257,26 +224,6 @@ bool buscaArquivo(base *ptrVetorCompleto, int *ptrVetorModificado)
                 }
                 i++;
             }
-            if (achou)
-            {
-                cout << "\nDeseja alterar algo nesse exercicio?\n";
-                int altera;
-                do
-                {
-                    cout << "1 - Alterar.\n2 - Nao alterar.\n";
-                    cin >> altera;
-                } while (altera != 1 && altera != 2);
-                if (altera == 1)
-                    alterarDado(ptrVetorCompleto, ptrVetorModificado, itemAlterar);
-            }
-
-            else
-                cout << "Exercicio nao encontrado!" << endl;
-
-            if (repete())
-                continua = true;
-            else
-                continua = false;
         }
         // Caso inserido um argumento invalido.
         else if (busca != 1 && busca != 2)
@@ -284,14 +231,34 @@ bool buscaArquivo(base *ptrVetorCompleto, int *ptrVetorModificado)
             cout << "Entrada nao reconhecida.\n";
             return false;
         }
-    }
 
+        if (achou)
+        {
+            cout << "\nDeseja alterar algo nesse exercicio?\n";
+            int altera;
+            do
+            {
+                cout << "1 - Alterar.\n2 - Nao alterar.\n";
+                cin >> altera;
+            } while (altera != 1 && altera != 2);
+            if (altera == 1)
+                alterarDado(ptrVetorCompleto, ptrVetorModificado, itemAlterar);
+        }
+
+        else
+            cout << "Exercicio nao encontrado!" << endl;
+
+        if (repete())
+            continua = true;
+        else
+            continua = false;
+    }
     return true;
 }
 
 // Função que salva as modificações do vetor 'ptrVetorCompleto', usado pra manipular os valores e salva as açterações no arquivo
 
-void escreverDados(base *ptrVetorCompleto, int *ptrVetorModificado, int capacidade)
+void escreverDados(base *ptrVetorCompleto, int *ptrVetorModificado)
 {
 
     bool foiModificado = false;
@@ -370,10 +337,18 @@ void inserirArquivo(base *ptrVetorCompleto, int *ptrVetorModificado, int &capaci
     ofstream dados("dados.csv", std::ios::out | std::ios::app);
     do
     {
+        if (tamanho == capacidade)
+        {
+            base *novoVetor = NULL;
+            novoVetor = new base[capacidade + 2];
+            copy(ptrVetorCompleto, ptrVetorCompleto + tamanho, novoVetor);
+            delete[] ptrVetorCompleto;
+            ptrVetorCompleto = novoVetor;
+            capacidade += 2;
+        }
+
         cout << "Inserção de novos dados no arquivo.\n";
         cout << "Digite as informacoes do exercicio conforme solicitado.\n";
-
-        aumentarVetor(tamanho, capacidade, ptrVetorCompleto);
 
         // Escrevendo novos dados no vetor.
         cout << "ID do novo exercicio: ";
@@ -408,7 +383,6 @@ void inserirArquivo(base *ptrVetorCompleto, int *ptrVetorModificado, int &capaci
 int main()
 {
 
-    int capacidade = 120;
     base *ptrVetorCompleto = new base[capacidade];
     int *ptrVetorModificado = new int[capacidade];
 
@@ -417,7 +391,7 @@ int main()
         ptrVetorModificado[i] = 0;
     }
 
-    if (receberArquivo(ptrVetorCompleto, capacidade))
+    if (receberArquivo(ptrVetorCompleto))
     {
         int modo;
         cout << "O que deseja fazer no arquivo?\n";
@@ -428,12 +402,12 @@ int main()
             if (modo == 1)
             {
                 if (buscaArquivo(ptrVetorCompleto, ptrVetorModificado))
-                    escreverDados(ptrVetorCompleto, ptrVetorModificado, capacidade);
+                    escreverDados(ptrVetorCompleto, ptrVetorModificado);
             }
             else if (modo == 2)
             {
                 inserirArquivo(ptrVetorCompleto, ptrVetorModificado, tamanho, capacidade);
-                escreverDados(ptrVetorCompleto, ptrVetorModificado, capacidade);
+                escreverDados(ptrVetorCompleto, ptrVetorModificado);
             }
         } while (modo != 1 && modo != 2);
     }
