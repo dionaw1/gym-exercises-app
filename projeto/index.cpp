@@ -2,7 +2,7 @@
 #include <fstream>
 #include <algorithm>
 using namespace std;
-int capacidade = 100;
+int capacidade = 150;
 int tamanho = 0;
 
 // Registro base que vai receber as informações do arquivo.
