@@ -21,7 +21,7 @@ struct base
 bool repete()
 {
     int repetir = 0;
-    cout << "Deseja consultar outro item?\n";
+    cout << "Deseja repetir o processo?\n";
 
     while ((repetir != 1) && (repetir != 2))
     {
@@ -86,18 +86,17 @@ void alterarDado(base *ptrVetorCompleto, int *ptrVetorModificado, int i)
     else if (valorAlterar == 6)
     {
         ptrVetorModificado[i] = 1;
-
-        cout << "Insira o novos dados no mesmo formato do arquivo, separando os itens por um ';': ";
-
+        cout << "Insira o novos dados\n";
+        cout << "Novo ID exercicio: ";
         cin >> ptrVetorCompleto[i].id;
         cin.ignore();
-
-        getline(cin, ptrVetorCompleto[i].nome, ';');
-
-        getline(cin, ptrVetorCompleto[i].objetivo, ';');
-
-        getline(cin, ptrVetorCompleto[i].musculos, ';');
-
+        cout << "Novo nome do exercicio: ";
+        getline(cin, ptrVetorCompleto[i].nome);
+        cout << "Novo objetivo do exercicio: ";
+        getline(cin, ptrVetorCompleto[i].objetivo);
+        cout << "Novos musculos do exercicio: ";
+        getline(cin, ptrVetorCompleto[i].musculos);
+        cout << "Nova dificuldade do exercicio: ";
         cin >> ptrVetorCompleto[i].dificuldade;
         cin.ignore();
     }
@@ -300,7 +299,6 @@ void escreverDados(base *ptrVetorCompleto, int *ptrVetorModificado)
                     saida << ptrVetorCompleto[i].dificuldade;
                     saida << endl;
                 }
-                cout << "Arquivo alterado com sucesso!" << endl;
             }
             else if (entrada == 2)
             {
@@ -320,7 +318,6 @@ void escreverDados(base *ptrVetorCompleto, int *ptrVetorModificado)
                         saida << endl;
                     }
                 }
-                cout << "Arquivo alterado com sucesso!" << endl;
             }
             else
                 cout << "Opção inválida, tente novamente." << endl;
@@ -337,39 +334,46 @@ void escreverDados(base *ptrVetorCompleto, int *ptrVetorModificado)
 
 void inserirArquivo(base *ptrVetorCompleto, int *ptrVetorModificado, int &capacidade, int &tamanho)
 {
-    if (tamanho == capacidade)
-    {
-        base *novoVetor = NULL;
-        novoVetor = new base[capacidade + 2];
-        copy(ptrVetorCompleto, ptrVetorCompleto + tamanho, novoVetor);
-        delete[] ptrVetorCompleto;
-        ptrVetorCompleto = novoVetor;
-        capacidade += 2;
-    }
-
     ofstream dados("dados.csv", std::ios::out | std::ios::app);
+    do
+    {
+        if (tamanho == capacidade)
+        {
+            base *novoVetor = NULL;
+            novoVetor = new base[capacidade + 2];
+            copy(ptrVetorCompleto, ptrVetorCompleto + tamanho, novoVetor);
+            delete[] ptrVetorCompleto;
+            ptrVetorCompleto = novoVetor;
+            capacidade += 2;
+        }
 
-    cout << "Insercao de novos dados no arquivo.\n";
-    cout << "Digite as informacoes do exercicio no formato padrao do arquivo.\n'ID;Nome;Objetivo;Musculos;Dificuldade'\n";
+        cout << "Inserção de novos dados no arquivo.\n";
+        cout << "Digite as informacoes do exercicio conforme solicitado.\n";
 
-    // Escrevendo novos dados no vetor.
-    cin >> ptrVetorCompleto[tamanho].id;
-    cin.ignore();
-    getline(cin, ptrVetorCompleto[tamanho].nome, ';');
-    getline(cin, ptrVetorCompleto[tamanho].objetivo, ';');
-    getline(cin, ptrVetorCompleto[tamanho].musculos, ';');
-    cin >> ptrVetorCompleto[tamanho].dificuldade;
-    cin.ignore();
+        // Escrevendo novos dados no vetor.
+        cout << "ID do novo exercicio: ";
+        cin >> ptrVetorCompleto[tamanho].id;
+        cin.ignore();
+        cout << "Nome do novo exercicio: ";
+        getline(cin, ptrVetorCompleto[tamanho].nome);
+        cout << "Objetivo do novo exercicio: ";
+        getline(cin, ptrVetorCompleto[tamanho].objetivo);
+        cout << "Musculos do novo exercicio: ";
+        getline(cin, ptrVetorCompleto[tamanho].musculos);
+        cout << "Dificuldade do novo exercicio: ";
+        cin >> ptrVetorCompleto[tamanho].dificuldade;
+        cin.ignore();
 
-    // Escrevendo os novos dados no arquivo
-    dados << ptrVetorCompleto[tamanho].id << ';';
-    dados << ptrVetorCompleto[tamanho].nome << ';';
-    dados << ptrVetorCompleto[tamanho].objetivo << ';';
-    dados << ptrVetorCompleto[tamanho].musculos << ';';
-    dados << ptrVetorCompleto[tamanho].dificuldade << '\n';
+        // Escrevendo os novos dados no arquivo
+        dados << ptrVetorCompleto[tamanho].id << ';';
+        dados << ptrVetorCompleto[tamanho].nome << ';';
+        dados << ptrVetorCompleto[tamanho].objetivo << ';';
+        dados << ptrVetorCompleto[tamanho].musculos << ';';
+        dados << ptrVetorCompleto[tamanho].dificuldade << '\n';
 
-    ptrVetorModificado[tamanho] = 1;
-    tamanho++;
+        ptrVetorModificado[tamanho] = 1;
+        tamanho++;
+    } while ((repete()));
 
     dados.close();
 }
