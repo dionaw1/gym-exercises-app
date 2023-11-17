@@ -40,7 +40,7 @@ bool repete()
 
 void inserirArquivo(base *ptrVetorCompleto, int *ptrVetorModificado, int &capacidade, int &tamanho)
 {
-    ofstream dados("dados.csv", std::ios::out | std::ios::app);
+    ofstream dados("saida.dat", std::ios::out | std::ios::app | std::ios::binary);
     do
     {
         if (tamanho == capacidade)
