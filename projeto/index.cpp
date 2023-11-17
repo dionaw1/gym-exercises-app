@@ -165,7 +165,7 @@ bool receberArquivo(base *&ptrVetorCompleto, int &tamanho, int &capacidade)
         {
             if (tamanho == capacidade)
             {
-                capacidade += 2;
+                capacidade *= 2;
                 base *novoVetor = new base[capacidade];
                 copy(ptrVetorCompleto, ptrVetorCompleto + tamanho, novoVetor);
                 delete[] ptrVetorCompleto;
@@ -180,12 +180,12 @@ bool receberArquivo(base *&ptrVetorCompleto, int &tamanho, int &capacidade)
             entrada.ignore();
             tamanho++;
         }
-        tamanho++;
         entrada.close();
         cout << "Arquivo carregado com sucesso!" << endl;
         return true;
     }
     else
+    
     {
         cout << "Erro ao carregar o arquivo.";
         return false;
@@ -384,7 +384,7 @@ void escreverDados(base *ptrVetorCompleto, int *ptrVetorModificado, int tamanho,
 
 int main()
 {
-    int tamanho = 0, capacidade = 99;
+    int tamanho = 0, capacidade = 100;
     base *ptrVetorCompleto = new base[capacidade];
     int *ptrVetorModificado = new int[capacidade];
 
