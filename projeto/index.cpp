@@ -2,7 +2,7 @@
 #include <fstream>
 #include <algorithm>
 using namespace std;
-int capacidade = 150;
+int capacidade = 100;
 int tamanho = 0;
 
 // Registro base que vai receber as informações do arquivo.
@@ -36,6 +36,53 @@ bool repete()
             return false;
     }
     return true;
+}
+
+// Funcao para inserir novos dados no arquivo.
+
+void inserirArquivo(base *ptrVetorCompleto, int *ptrVetorModificado, int &capacidade, int &tamanho)
+{
+    ofstream dados("dados.csv", std::ios::out | std::ios::app);
+    do
+    {
+        if (tamanho == capacidade)
+        {
+            capacidade += 2;
+            base *novoVetor = new base[capacidade];
+            copy(ptrVetorCompleto, ptrVetorCompleto + tamanho, novoVetor);
+            delete[] ptrVetorCompleto;
+            ptrVetorCompleto = novoVetor;
+        }
+
+        cout << "Inserção de novos dados no arquivo.\n";
+        cout << "Digite as informacoes do exercicio conforme solicitado.\n";
+
+        // Escrevendo novos dados no vetor.
+        cout << "ID do novo exercicio: ";
+        cin >> ptrVetorCompleto[tamanho].id;
+        cin.ignore();
+        cout << "Nome do novo exercicio: ";
+        getline(cin, ptrVetorCompleto[tamanho].nome);
+        cout << "Objetivo do novo exercicio: ";
+        getline(cin, ptrVetorCompleto[tamanho].objetivo);
+        cout << "Musculos do novo exercicio: ";
+        getline(cin, ptrVetorCompleto[tamanho].musculos);
+        cout << "Dificuldade do novo exercicio: ";
+        cin >> ptrVetorCompleto[tamanho].dificuldade;
+        cin.ignore();
+
+        // Escrevendo os novos dados no arquivo
+        dados << ptrVetorCompleto[tamanho].id << ';';
+        dados << ptrVetorCompleto[tamanho].nome << ';';
+        dados << ptrVetorCompleto[tamanho].objetivo << ';';
+        dados << ptrVetorCompleto[tamanho].musculos << ';';
+        dados << ptrVetorCompleto[tamanho].dificuldade << '\n';
+
+        ptrVetorModificado[tamanho] = 1;
+        tamanho++;
+    } while ((repete()));
+
+    dados.close();
 }
 
 /* Função que permite a modificação dos dados de um elemento específico no vetor 'ptrVetorCompleto[]',
@@ -109,30 +156,34 @@ void alterarDado(base *ptrVetorCompleto, int *ptrVetorModificado, int i)
 /* Função que lê um arquivo chamado "dados.csv" e carrega os dados para um vetor de estruturas 'ptrVetorCompleto[]'.
 Retorna um booleano indicando se o carregamento do arquivo foi bem-sucedido ou não.*/
 
-bool receberArquivo(base *ptrVetorCompleto)
+bool receberArquivo(base *&ptrVetorCompleto)
 {
     string cabecalho;
     fstream entrada("dados.csv");
     if (entrada)
     {
         getline(entrada, cabecalho, '#');
-        int i = 0;
-        while (i < capacidade)
+        while (!entrada.eof())
         {
+            if (tamanho == capacidade)
+            {
+                capacidade += 2;
+                base *novoVetor = new base[capacidade];
+                copy(ptrVetorCompleto, ptrVetorCompleto + tamanho, novoVetor);
+                delete[] ptrVetorCompleto;
+                ptrVetorCompleto = novoVetor;
+            }
+            entrada >> ptrVetorCompleto[tamanho].id;
+            entrada.ignore();
+            getline(entrada, ptrVetorCompleto[tamanho].nome, ';');
+            getline(entrada, ptrVetorCompleto[tamanho].objetivo, ';');
+            getline(entrada, ptrVetorCompleto[tamanho].musculos, ';');
+            entrada >> ptrVetorCompleto[tamanho].dificuldade;
+            entrada.ignore();
             tamanho++;
-            entrada >> ptrVetorCompleto[i].id;
-            entrada.ignore();
-            getline(entrada, ptrVetorCompleto[i].nome, ';');
-            getline(entrada, ptrVetorCompleto[i].objetivo, ';');
-            getline(entrada, ptrVetorCompleto[i].musculos, ';');
-            entrada >> ptrVetorCompleto[i].dificuldade;
-            entrada.ignore();
-            i++;
         }
-        tamanho = i;
         entrada.close();
         cout << "Arquivo carregado com sucesso!" << endl;
-        entrada.close();
         return true;
     }
     else
@@ -328,54 +379,6 @@ void escreverDados(base *ptrVetorCompleto, int *ptrVetorModificado)
 
         saida.close();
     }
-}
-
-// Funcao para inserir novos dados no arquivo.
-
-void inserirArquivo(base *ptrVetorCompleto, int *ptrVetorModificado, int &capacidade, int &tamanho)
-{
-    ofstream dados("dados.csv", std::ios::out | std::ios::app);
-    do
-    {
-        if (tamanho == capacidade)
-        {
-            base *novoVetor = NULL;
-            novoVetor = new base[capacidade + 2];
-            copy(ptrVetorCompleto, ptrVetorCompleto + tamanho, novoVetor);
-            delete[] ptrVetorCompleto;
-            ptrVetorCompleto = novoVetor;
-            capacidade += 2;
-        }
-
-        cout << "Inserção de novos dados no arquivo.\n";
-        cout << "Digite as informacoes do exercicio conforme solicitado.\n";
-
-        // Escrevendo novos dados no vetor.
-        cout << "ID do novo exercicio: ";
-        cin >> ptrVetorCompleto[tamanho].id;
-        cin.ignore();
-        cout << "Nome do novo exercicio: ";
-        getline(cin, ptrVetorCompleto[tamanho].nome);
-        cout << "Objetivo do novo exercicio: ";
-        getline(cin, ptrVetorCompleto[tamanho].objetivo);
-        cout << "Musculos do novo exercicio: ";
-        getline(cin, ptrVetorCompleto[tamanho].musculos);
-        cout << "Dificuldade do novo exercicio: ";
-        cin >> ptrVetorCompleto[tamanho].dificuldade;
-        cin.ignore();
-
-        // Escrevendo os novos dados no arquivo
-        dados << ptrVetorCompleto[tamanho].id << ';';
-        dados << ptrVetorCompleto[tamanho].nome << ';';
-        dados << ptrVetorCompleto[tamanho].objetivo << ';';
-        dados << ptrVetorCompleto[tamanho].musculos << ';';
-        dados << ptrVetorCompleto[tamanho].dificuldade << '\n';
-
-        ptrVetorModificado[tamanho] = 1;
-        tamanho++;
-    } while ((repete()));
-
-    dados.close();
 }
 
 // Função principal, usada pra chamar as outras funcoes do codigo, verificando se certas condições são atendidas.
