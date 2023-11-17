@@ -2,8 +2,6 @@
 #include <fstream>
 #include <algorithm>
 using namespace std;
-int capacidade = 100;
-int tamanho = 0;
 
 // Registro base que vai receber as informações do arquivo.
 
@@ -156,7 +154,7 @@ void alterarDado(base *ptrVetorCompleto, int *ptrVetorModificado, int i)
 /* Função que lê um arquivo chamado "dados.csv" e carrega os dados para um vetor de estruturas 'ptrVetorCompleto[]'.
 Retorna um booleano indicando se o carregamento do arquivo foi bem-sucedido ou não.*/
 
-bool receberArquivo(base *&ptrVetorCompleto)
+bool receberArquivo(base *&ptrVetorCompleto, int &tamanho, int &capacidade)
 {
     string cabecalho;
     fstream entrada("dados.csv");
@@ -182,6 +180,7 @@ bool receberArquivo(base *&ptrVetorCompleto)
             entrada.ignore();
             tamanho++;
         }
+        tamanho++;
         entrada.close();
         cout << "Arquivo carregado com sucesso!" << endl;
         return true;
@@ -199,7 +198,7 @@ Por exemplo, se um texto do tipo string for inserido no campo de ID, que deveria
 o código prematuramente e imprimirá textos indesejados. Nesta disciplina, ainda não foram introduzidos métodos de verificação do tipo de dado inserido em uma variável.
 Portanto, optei por seguir dessa maneira.*/
 
-bool buscaArquivo(base *ptrVetorCompleto, int *ptrVetorModificado)
+bool buscaArquivo(base *ptrVetorCompleto, int *ptrVetorModificado, int tamanho)
 {
     bool continua = true;
     while (continua)
@@ -309,7 +308,7 @@ bool buscaArquivo(base *ptrVetorCompleto, int *ptrVetorModificado)
 
 // Função que salva as modificações do vetor 'ptrVetorCompleto', usado pra manipular os valores e salva as açterações no arquivo
 
-void escreverDados(base *ptrVetorCompleto, int *ptrVetorModificado)
+void escreverDados(base *ptrVetorCompleto, int *ptrVetorModificado, int tamanho, int capacidade)
 {
 
     bool foiModificado = false;
@@ -385,7 +384,7 @@ void escreverDados(base *ptrVetorCompleto, int *ptrVetorModificado)
 
 int main()
 {
-
+    int tamanho = 0, capacidade = 99;
     base *ptrVetorCompleto = new base[capacidade];
     int *ptrVetorModificado = new int[capacidade];
 
@@ -394,7 +393,7 @@ int main()
         ptrVetorModificado[i] = 0;
     }
 
-    if (receberArquivo(ptrVetorCompleto))
+    if (receberArquivo(ptrVetorCompleto, tamanho, capacidade))
     {
         int modo;
         cout << "O que deseja fazer no arquivo?\n";
@@ -404,13 +403,13 @@ int main()
             cin >> modo;
             if (modo == 1)
             {
-                if (buscaArquivo(ptrVetorCompleto, ptrVetorModificado))
-                    escreverDados(ptrVetorCompleto, ptrVetorModificado);
+                if (buscaArquivo(ptrVetorCompleto, ptrVetorModificado, tamanho))
+                    escreverDados(ptrVetorCompleto, ptrVetorModificado, tamanho, capacidade);
             }
             else if (modo == 2)
             {
                 inserirArquivo(ptrVetorCompleto, ptrVetorModificado, tamanho, capacidade);
-                escreverDados(ptrVetorCompleto, ptrVetorModificado);
+                escreverDados(ptrVetorCompleto, ptrVetorModificado, tamanho, capacidade);
             }
         } while (modo != 1 && modo != 2);
     }
