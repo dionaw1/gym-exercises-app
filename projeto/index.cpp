@@ -45,7 +45,7 @@ void inserirArquivo(base *ptrVetorCompleto, int *ptrVetorModificado, int &capaci
     {
         if (tamanho == capacidade)
         {
-            capacidade += 2;
+            capacidade *= 2;
             base *novoVetor = new base[capacidade];
             copy(ptrVetorCompleto, ptrVetorCompleto + tamanho, novoVetor);
             delete[] ptrVetorCompleto;
@@ -161,7 +161,7 @@ bool receberArquivo(base *&ptrVetorCompleto, int &tamanho, int &capacidade)
     if (entrada)
     {
         getline(entrada, cabecalho, '#');
-        while (!entrada.eof())
+        while (!entrada.eof()) // Funcao usada para verificar se o fim do arquivo foi antingido, enquanto nao for o programa vai ler mais entradas.
         {
             if (tamanho == capacidade)
             {
@@ -180,6 +180,7 @@ bool receberArquivo(base *&ptrVetorCompleto, int &tamanho, int &capacidade)
             entrada.ignore();
             tamanho++;
         }
+        tamanho++;
         entrada.close();
         cout << "Arquivo carregado com sucesso!" << endl;
         return true;
