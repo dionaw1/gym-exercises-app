@@ -70,7 +70,7 @@ void inserirArquivo(base *&ptrVetorCompleto, int *&ptrVetorModificado, int &capa
         string novoNome, novoObjetivo, novosMusculos;
 
         // Escrevendo novos dados em variaveis.
-        cout << "ID do novo exercicio: ";
+        cout << "ID do novo exercicio (que seja um número inteiro): ";
         cin >> novoID;
         cin.ignore();
         cout << "Nome do novo exercicio: ";
@@ -79,7 +79,7 @@ void inserirArquivo(base *&ptrVetorCompleto, int *&ptrVetorModificado, int &capa
         getline(cin, novoObjetivo);
         cout << "Musculos do novo exercicio: ";
         getline(cin, novosMusculos);
-        cout << "Dificuldade do novo exercicio: ";
+        cout << "Dificuldade do novo exercicio (que seja um número inteiro): ";
         cin >> novaDificuldade;
         cin.ignore();
 
@@ -115,7 +115,7 @@ void alterarDado(base *ptrVetorCompleto, int *ptrVetorModificado, int i)
 
     if (valorAlterar == 1)
     {
-        cout << "Digite o novo valor: ";
+        cout << "Digite o novo valor (que seja um número inteiro): ";
         cin >> ptrVetorCompleto[i].id;
         cin.ignore();
         ptrVetorModificado[i] = 1;
@@ -140,7 +140,7 @@ void alterarDado(base *ptrVetorCompleto, int *ptrVetorModificado, int i)
     }
     else if (valorAlterar == 5)
     {
-        cout << "Digite o novo valor: ";
+        cout << "Digite o novo valor (que seja um número inteiro): ";
         cin >> ptrVetorCompleto[i].dificuldade;
         cin.ignore();
         ptrVetorModificado[i] = 1;
