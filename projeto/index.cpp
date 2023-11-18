@@ -3,6 +3,9 @@
 #include <algorithm>
 using namespace std;
 
+/* Como ainda não fomos apresentados a manipulação de arquivos binários, optamos por seguir, nessa primeira etapa
+do projeto, lendo e escrevendo de um arquivo convencional de texto, nesse caso o CSV. */
+
 // Registro base que vai receber as informações do arquivo.
 
 struct base
@@ -21,36 +24,44 @@ bool repete()
     int repetir = 0;
     cout << "Deseja repetir o processo?\n";
 
-    while ((repetir != 1) && (repetir != 2))
+    while ((repetir != 1) && (repetir != 2)) // Enquanto for diferente de uma entrada esperada o loop continua.
     {
-        cout << "1 - Continuar.\n2 - Sair.\n";
+            cout << "1 - Continuar.\n2 - Sair.\n";
 
-        cin >> repetir;
-        cin.ignore();
+            cin >> repetir;
+            cin.ignore();
 
-        if (repetir == 1)
-            return true;
-        else if (repetir == 2)
-            return false;
+            if (repetir == 1)
+                return true;
+            else if (repetir == 2)
+                return false;
+            else
+                cout << "Entrada não reconhecida, tente novamente.\n";
     }
     return true;
 }
 
-// Funcao para inserir novos dados no arquivo.
+// Função para inserir novos dados no arquivo.
 
-void inserirArquivo(base *ptrVetorCompleto, int *ptrVetorModificado, int &capacidade, int &tamanho)
+void inserirArquivo(base *&ptrVetorCompleto, int *&ptrVetorModificado, int &capacidade, int &tamanho)
 {
-    ofstream dados("dados.csv", ios::app);
+    ofstream dados("dados.csv", ios::app); // Arquivo aberto no modo app para escrever apenas no final do mesmo.
     do
     {
-        if (tamanho == capacidade)
-        {
-            base *novoVetor = new base[capacidade * 2];
-            copy(ptrVetorCompleto, ptrVetorCompleto + tamanho, novoVetor);
-            delete[] ptrVetorCompleto;
-            ptrVetorCompleto = novoVetor;
-            capacidade *= 2;
-        }
+            if (tamanho == (capacidade - 1)) // Realocação dinâmica padrão quando o arquivo estiver em sua capacidade máxima.
+            {
+                capacidade += 10;
+                base *novoVetor = NULL;
+                int *novoVetorModificado = NULL;
+                novoVetor = new base[capacidade];
+                novoVetorModificado = new int[capacidade];
+                copy(ptrVetorCompleto, ptrVetorCompleto + tamanho, novoVetor);
+                copy(ptrVetorModificado, ptrVetorModificado + tamanho, novoVetorModificado);
+                delete[] ptrVetorCompleto;
+                delete[] ptrVetorModificado;
+                ptrVetorCompleto = novoVetor;
+                ptrVetorModificado = novoVetorModificado;
+            }
 
         cout << "Inserção de novos dados no arquivo.\n";
         cout << "Digite as informacoes do exercicio conforme solicitado.\n";
@@ -82,7 +93,7 @@ void inserirArquivo(base *ptrVetorCompleto, int *ptrVetorModificado, int &capaci
 
         ptrVetorModificado[tamanho] = 1;
         tamanho++;
-    } while ((repete()));
+    } while (repete());
 
     dados.close();
     
@@ -160,7 +171,7 @@ void alterarDado(base *ptrVetorCompleto, int *ptrVetorModificado, int i)
 /* Função que lê um arquivo chamado "dados.csv" e carrega os dados para um vetor de estruturas 'ptrVetorCompleto[]'.
 Retorna um booleano indicando se o carregamento do arquivo foi bem-sucedido ou não.*/
 
-bool receberArquivo(base *&ptrVetorCompleto, int &tamanho, int &capacidade)
+bool receberArquivo(base *&ptrVetorCompleto, int *&ptrVetorModificado, int &tamanho, int &capacidade)
 {
     string cabecalho;
     ifstream entrada("dados.csv");
@@ -169,13 +180,19 @@ bool receberArquivo(base *&ptrVetorCompleto, int &tamanho, int &capacidade)
         getline(entrada, cabecalho, '#');
         while (entrada >> ptrVetorCompleto[tamanho].id) // Funcao usada para verificar se o fim do arquivo foi antingido, enquanto nao for o programa vai ler mais entradas.
         {
-            if (tamanho == capacidade)
+            if (tamanho == (capacidade - 1))
             {
-                base *novoVetor = new base[capacidade * 2];
+                capacidade += 10;
+                base *novoVetor = NULL;
+                int *novoVetorModificado = NULL;
+                novoVetor = new base[capacidade];
+                novoVetorModificado = new int[capacidade];
                 copy(ptrVetorCompleto, ptrVetorCompleto + tamanho, novoVetor);
+                copy(ptrVetorModificado, ptrVetorModificado + tamanho, novoVetorModificado);
                 delete[] ptrVetorCompleto;
+                delete[] ptrVetorModificado;
                 ptrVetorCompleto = novoVetor;
-                capacidade *= 2;
+                ptrVetorModificado = novoVetorModificado;
             }
             entrada.ignore();
             getline(entrada, ptrVetorCompleto[tamanho].nome, ';');
@@ -389,18 +406,19 @@ void escreverDados(base *ptrVetorCompleto, int *ptrVetorModificado, int tamanho,
 
 int main()
 {
-    int tamanho = 0, capacidade = 90;
-    base *ptrVetorCompleto = new base[capacidade];
-    int *ptrVetorModificado = new int[capacidade];
+    int tamanho = 0, capacidade = 75;
+    base *ptrVetorCompleto = NULL;
+    int *ptrVetorModificado = NULL;
+    ptrVetorCompleto = new base[capacidade];
+    ptrVetorModificado = new int[capacidade];
 
     for (int i = 0; i < capacidade; i++)
     {
         ptrVetorModificado[i] = 0;
     }
 
-    if (receberArquivo(ptrVetorCompleto, tamanho, capacidade))
+    if (receberArquivo(ptrVetorCompleto, ptrVetorModificado , tamanho, capacidade))
     {
-        cout << capacidade << " " << tamanho << endl;
         int modo;
         cout << "O que deseja fazer no arquivo?\n";
         do
