@@ -40,16 +40,16 @@ bool repete()
 
 void inserirArquivo(base *ptrVetorCompleto, int *ptrVetorModificado, int &capacidade, int &tamanho)
 {
-    ofstream dados("saida.dat", std::ios::out | std::ios::app | std::ios::binary);
+    ofstream dados("dados.csv", ios::app);
     do
     {
         if (tamanho == capacidade)
         {
-            capacidade *= 2;
-            base *novoVetor = new base[capacidade];
+            base *novoVetor = new base[capacidade + 10];
             copy(ptrVetorCompleto, ptrVetorCompleto + tamanho, novoVetor);
             delete[] ptrVetorCompleto;
             ptrVetorCompleto = novoVetor;
+            capacidade += 10;
         }
 
         cout << "Inserção de novos dados no arquivo.\n";
@@ -70,11 +70,12 @@ void inserirArquivo(base *ptrVetorCompleto, int *ptrVetorModificado, int &capaci
         cin.ignore();
 
         // Escrevendo os novos dados no arquivo
+        dados << endl;
         dados << ptrVetorCompleto[tamanho].id << ';';
         dados << ptrVetorCompleto[tamanho].nome << ';';
         dados << ptrVetorCompleto[tamanho].objetivo << ';';
         dados << ptrVetorCompleto[tamanho].musculos << ';';
-        dados << ptrVetorCompleto[tamanho].dificuldade << '\n';
+        dados << ptrVetorCompleto[tamanho].dificuldade;
 
         ptrVetorModificado[tamanho] = 1;
         tamanho++;
@@ -157,7 +158,7 @@ Retorna um booleano indicando se o carregamento do arquivo foi bem-sucedido ou n
 bool receberArquivo(base *&ptrVetorCompleto, int &tamanho, int &capacidade)
 {
     string cabecalho;
-    fstream entrada("dados.csv");
+    ifstream entrada("dados.csv");
     if (entrada)
     {
         getline(entrada, cabecalho, '#');
@@ -165,11 +166,11 @@ bool receberArquivo(base *&ptrVetorCompleto, int &tamanho, int &capacidade)
         {
             if (tamanho == capacidade)
             {
-                capacidade *= 2;
-                base *novoVetor = new base[capacidade];
+                base *novoVetor = new base[capacidade + 10];
                 copy(ptrVetorCompleto, ptrVetorCompleto + tamanho, novoVetor);
                 delete[] ptrVetorCompleto;
                 ptrVetorCompleto = novoVetor;
+                capacidade += 10;
             }
             entrada >> ptrVetorCompleto[tamanho].id;
             entrada.ignore();
@@ -326,7 +327,7 @@ void escreverDados(base *ptrVetorCompleto, int *ptrVetorModificado, int tamanho,
         cout << "Nenhuma alteração feita no arquivo.";
     else
     {
-        ofstream saida("saida.dat");
+        ofstream saida("dados.csv");
         cout << "Deseja salvar todos os dados no arquivo ou apenas aqueles modificados?\n";
 
         do
