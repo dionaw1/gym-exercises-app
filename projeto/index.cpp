@@ -45,43 +45,48 @@ void inserirArquivo(base *ptrVetorCompleto, int *ptrVetorModificado, int &capaci
     {
         if (tamanho == capacidade)
         {
-            base *novoVetor = new base[capacidade + 10];
+            base *novoVetor = new base[capacidade * 2];
             copy(ptrVetorCompleto, ptrVetorCompleto + tamanho, novoVetor);
             delete[] ptrVetorCompleto;
             ptrVetorCompleto = novoVetor;
-            capacidade += 10;
+            capacidade *= 2;
         }
 
         cout << "Inserção de novos dados no arquivo.\n";
         cout << "Digite as informacoes do exercicio conforme solicitado.\n";
 
-        // Escrevendo novos dados no vetor.
+        int novoID, novaDificuldade;
+        string novoNome, novoObjetivo, novosMusculos;
+
+        // Escrevendo novos dados em variaveis.
         cout << "ID do novo exercicio: ";
-        cin >> ptrVetorCompleto[tamanho].id;
+        cin >> novoID;
         cin.ignore();
         cout << "Nome do novo exercicio: ";
-        getline(cin, ptrVetorCompleto[tamanho].nome);
+        getline(cin, novoNome);
         cout << "Objetivo do novo exercicio: ";
-        getline(cin, ptrVetorCompleto[tamanho].objetivo);
+        getline(cin, novoObjetivo);
         cout << "Musculos do novo exercicio: ";
-        getline(cin, ptrVetorCompleto[tamanho].musculos);
+        getline(cin, novosMusculos);
         cout << "Dificuldade do novo exercicio: ";
-        cin >> ptrVetorCompleto[tamanho].dificuldade;
+        cin >> novaDificuldade;
         cin.ignore();
 
         // Escrevendo os novos dados no arquivo
         dados << endl;
-        dados << ptrVetorCompleto[tamanho].id << ';';
-        dados << ptrVetorCompleto[tamanho].nome << ';';
-        dados << ptrVetorCompleto[tamanho].objetivo << ';';
-        dados << ptrVetorCompleto[tamanho].musculos << ';';
-        dados << ptrVetorCompleto[tamanho].dificuldade;
+        dados << novoID << ';';
+        dados << novoNome << ';';
+        dados << novoObjetivo << ';';
+        dados << novosMusculos << ';';
+        dados << novaDificuldade;
 
         ptrVetorModificado[tamanho] = 1;
         tamanho++;
     } while ((repete()));
 
     dados.close();
+    
+    cout << "Dados inserido com sucesso, arquivo salvo." << endl;
 }
 
 /* Função que permite a modificação dos dados de um elemento específico no vetor 'ptrVetorCompleto[]',
@@ -162,17 +167,16 @@ bool receberArquivo(base *&ptrVetorCompleto, int &tamanho, int &capacidade)
     if (entrada)
     {
         getline(entrada, cabecalho, '#');
-        while (!entrada.eof()) // Funcao usada para verificar se o fim do arquivo foi antingido, enquanto nao for o programa vai ler mais entradas.
+        while (entrada >> ptrVetorCompleto[tamanho].id) // Funcao usada para verificar se o fim do arquivo foi antingido, enquanto nao for o programa vai ler mais entradas.
         {
             if (tamanho == capacidade)
             {
-                base *novoVetor = new base[capacidade + 10];
+                base *novoVetor = new base[capacidade * 2];
                 copy(ptrVetorCompleto, ptrVetorCompleto + tamanho, novoVetor);
                 delete[] ptrVetorCompleto;
                 ptrVetorCompleto = novoVetor;
-                capacidade += 10;
+                capacidade *= 2;
             }
-            entrada >> ptrVetorCompleto[tamanho].id;
             entrada.ignore();
             getline(entrada, ptrVetorCompleto[tamanho].nome, ';');
             getline(entrada, ptrVetorCompleto[tamanho].objetivo, ';');
@@ -181,13 +185,12 @@ bool receberArquivo(base *&ptrVetorCompleto, int &tamanho, int &capacidade)
             entrada.ignore();
             tamanho++;
         }
-        tamanho++;
         entrada.close();
         cout << "Arquivo carregado com sucesso!" << endl;
         return true;
     }
     else
-    
+
     {
         cout << "Erro ao carregar o arquivo.";
         return false;
@@ -386,7 +389,7 @@ void escreverDados(base *ptrVetorCompleto, int *ptrVetorModificado, int tamanho,
 
 int main()
 {
-    int tamanho = 0, capacidade = 100;
+    int tamanho = 0, capacidade = 90;
     base *ptrVetorCompleto = new base[capacidade];
     int *ptrVetorModificado = new int[capacidade];
 
@@ -397,6 +400,7 @@ int main()
 
     if (receberArquivo(ptrVetorCompleto, tamanho, capacidade))
     {
+        cout << capacidade << " " << tamanho << endl;
         int modo;
         cout << "O que deseja fazer no arquivo?\n";
         do
@@ -411,7 +415,6 @@ int main()
             else if (modo == 2)
             {
                 inserirArquivo(ptrVetorCompleto, ptrVetorModificado, tamanho, capacidade);
-                escreverDados(ptrVetorCompleto, ptrVetorModificado, tamanho, capacidade);
             }
         } while (modo != 1 && modo != 2);
     }
