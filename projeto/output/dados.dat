@@ -1,0 +1,100 @@
+identificador;nome;objetivo;musculos;dificuldade;#
+1;Agachamento Frontal com Barra;Hipertrofia;Quadríceps,Isquiotibiais,Glúteos;4
+2;Corrida de Longa Distância;Cardio;Músculos Cardiovasculares;3
+3;Burpee com Pulo e Flexão;Emagrecimento;Corpo inteiro (treino HIIT);4
+4;Pull-up com Pegada Larga;Força;Dorsais,Bíceps;4
+5;Prancha Lateral;Resistência;Abdômen,Oblíquos;3
+6;Salto na Caixa com Peso;Resistência;Pernas,Core;5
+7;Yoga Ashtanga;Flexibilidade;Corpo inteiro (alongamento e equilíbrio);2
+8;Equilíbrio com Bosu e Levantamento de Peso;Equilíbrio;Core,Músculos Estabilizadores;3
+9;Supino Inclinado com Halteres;Potência;Peitoral,Ombros;4
+10;Drills de Agilidade com Cones;Agilidade;Coordenação,Pernas;3
+11;Levantamento Terra Romeno;Estabilidade;Isquiotibiais,Costas;4
+12;Treino em Circuito com Kettlebells;Condicionamento;Corpo inteiro (alta intensidade);4
+13;Alongamento Estático de Isquiotibiais;Alongamento;Parte posterior da coxa;1
+14;Pilates;Foco;Core;3
+15;Exercícios de Reabilitação para Tornozelo;Reabilitação;Tornozelo,Pernas;2
+16;Alongamento de Ombros e Escápulas;Mobilidade;Ombros,Costas;2
+17;Rosca Direta com Barra;Tonificação;Bíceps,Antebraços;3
+18;Leg Press Inclinado;Hipertrofia;Quadríceps,Glúteos;4
+19;Treino Funcional com Elásticos de Resistência;Iniciante;Corpo inteiro (variedade de movimentos);4
+20;Russian Twist com Medicine Ball;Resistência;Abdômen,Obliquos;3
+21;Treino Metabólico com Pliometria;Metabolismo;Corpo inteiro (alta intensidade);4
+22;Corrida Intervalada com Sprint;Cardio;Músculos Cardiovasculares;5
+23;Treino de Levantamento Olímpico;Desafio;Corpo inteiro (potência e técnica);5
+24;Flexões Declinadas com Peso;Superiores;Peitoral,Tríceps;4
+25;Avanço com Barra;Inferiores;Quadríceps,Glúteos;4
+26;Clean and Jerk com Barra Olímpica;Explosivo;Pernas,Ombros;5
+27;Pular Corda com Variações;Aquecimento;Corpo inteiro (coordenação e cardio);2
+28;Swings com Kettlebell Alternados;Funcional;Pernas,Costas,Core;3
+29;Ciclismo Indoor com Resistência;Cardio;Músculos Cardiovasculares;3
+30;Remada Curvada Unilateral;Desenvolvimento;Dorsais,Bíceps;4
+31;Power Clean e Press;Potência;Pernas,Ombros;5
+32;Agachamento Frontal com Halteres;Força;Quadríceps,Glúteos;4
+33;Prancha com Elevação de Pernas;Hipertrofia;Abdômen,Core;3
+34;HIIT na Esteira com Intervalos;Intensidade;Corpo inteiro (alta intensidade);4
+35;Aula de Zumba;Cardio;Corpo inteiro (dança e cardio);3
+36;Woodchoppers com Cabo de Polia;Hipertrofia;Core,Músculos Estabilizadores;3
+37;Remo com Barra T;Fortalecimento;Costas,Dorsais;4
+38;Elevação de Pernas na Barra;Hipertrofia;Abdômen,Pernas;3
+39;Agachamentos Alternados com Salto;Potência;Pernas,Core;4
+40;Elevação de Pernas Suspensas;Hipertrofia;Abdômen,Core;3
+41;Corrida na Praia com Intensidade Variada;Cardio;Músculos Cardiovasculares;3
+42;Movimentos Funcionais com Cargas;Funcionalidade;Corpo inteiro (movimentos práticos com pesos);3
+43;Rolo de Espuma para Liberação Miofascial;Restauração;Flexibilidade,Recuperação Muscular;2
+44;Treino Tabata de Alta Intensidade;Emagrecimento;Corpo inteiro (alta intensidade intervalada);5
+45;Subir Escadas com Peso Adicional;Resistência;Pernas,Glúteos,Cardio;4
+46;Exercícios de Flexibilidade para Iniciantes;Iniciante;Introdução aos Exercícios de Flexibilidade;1
+47;Treino de Pliometria Avançado;Equilíbrio;Explosão e Força Avançada;5
+48;Treino de Força com Peso Corporal;Iniciante;Força Geral com o Peso do Corpo;3
+49;Treino Integrado de Movimentos Funcionais;Integração;Corpo inteiro (combinação de movimentos);4
+50;Exercícios com Corda Naval Alternados;Cardio;Braços,Ombros,Core;3
+51;Agachamento Frontal com Pausa e Explosão;Hipertrofia;Quadríceps,Isquiotibiais,Glúteos;4
+52;Corrida de Velocidade e Técnica;Cardio;Músculos Cardiovasculares;3
+53;Burpee com Salto Pliométrico;Emagrecimento;Corpo inteiro (treino HIIT);4
+54;Pull-up com Pegada Mista;Força;Dorsais,Bíceps;4
+55;Prancha com Extensão de Braço;Resistência;Abdômen,Ombros;3
+56;Salto na Caixa com Giro;Explosão;Pernas,Core;5
+57;Yoga Hatha;Flexibilidade;Alongamento,Respiração;2
+58;Equilíbrio com Bosu e Medicine Ball;Equilíbrio;Core,Coordenação;3
+59;Supino com Barra e Arco de Movimento Lento;Potência;Peitoral,Tríceps;4
+60;Drills de Agilidade com Mini Hurdles;Agilidade;Coordenação,Velocidade;3
+61;Levantamento Terra Sumô;Estabilidade;Glúteos,Isquiotibiais;4
+62;Treino em Circuito de Treinamento Funcional;Condicionamento;Corpo inteiro (variedade de exercícios);4
+63;Alongamento Dinâmico de Quadríceps;Alongamento;Quadríceps,Flexores do Quadril;1
+64;Pilates com Aparelhos;Foco;Core,Flexibilidade;3
+65;Exercícios de Reabilitação para Lesões no Ombro;Reabilitação;Ombro,Músculos Estabilizadores;2
+66;Mobilidade Articular dos Ombros;Mobilidade;Ombros,Flexibilidade;2
+67;Rosca Martelo Alternada;Tonificação;Braços,Bíceps;3
+68;Leg Press Horizontal;Hipertrofia;Quadríceps,Glúteos;4
+69;Treino Funcional com Sling Trainer;Funcional;Core,Estabilidade;4
+70;Russian Twist com Barra;Core;Abdômen,Obliquos;3
+71;Treino Metabólico com Treinamento de Saco de Pancada;Metabolismo;Corpo inteiro (alta intensidade);4
+72;Corrida de Velocidade com Aumento de Inclinação;Cardio;Músculos Cardiovasculares;5
+73;Treino de Levantamento Olímpico Avançado;Desafio;Técnica Avançada e Potência;5
+74;Flexões Declinadas com Peso Adicional;Superiores;Peitoral,Tríceps;4
+75;Avanço com Barra e Pausa Isométrica;Inferiores;Quadríceps,Glúteos;4
+76;Clean and Jerk com Barra Olímpica e Supino;Explosivo;Pernas,Ombros;5
+77;Pular Corda com Variações de Velocidade;Aquecimento;Cardio,Coordenação;2
+78;Swings Alternados com Kettlebell;Funcional;Costas,Pernas,Core;3
+79;Ciclismo Indoor com Treino de Sprints;Cardio;Músculos Cardiovasculares;3
+80;Remada Curvada com Pegada Pronada;Desenvolvimento;Dorsais,Bíceps;4
+81;Power Clean e Jerk;Potência;Pernas,Ombros;5
+82;Agachamento Frontal com Halteres e Salto;Força;Quadríceps,Glúteos;4
+83;Prancha com Elevação de Pernas Alternadas;Hipertrofia;Abdômen,Core;3
+84;HIIT na Escada com Variação de Altura;Intensidade;Pernas,Cardio;4
+85;Aula de Zumba com Foco em Coreografia;Cardio;Coordenação,Cardio;3
+86;Woodchoppers com Polia Alta e Baixa;Rotação;Core,Músculos Estabilizadores;3
+87;Remo com Barra em Pronação;Fortalecimento;Costas,Dorsais;4
+88;Elevação de Pernas com Giro na Barra;Hipertrofia;Abdômen,Core;3
+89;Agachamento com Salto Alternado;Potência;Pernas,Core;4
+90;Elevação de Pernas na Barra Horizontal;Ativação;Abdômen,Core;3
+91;Corrida ao Ar Livre com Variação de Terreno;Cardio;Músculos Cardiovasculares;3
+92;Exercícios de Movimentos Funcionais com Peso Corporal;Funcionalidade;Corpo inteiro (movimentos práticos);3
+93;Rolo de Espuma para Liberar Tensão Muscular;Restauração;Flexibilidade,Recuperação Muscular;2
+94;Treino de Alta Intensidade Intervalada com Peso Corporal;Emagrecimento;Corpo inteiro (alta intensidade intervalada);5
+95;Subir Escadas com Peso Adicional e Sprint;Resistência;Pernas,Glúteos,Cardio;4
+96;Exercícios de Flexibilidade e Mobilidade para Iniciantes;Iniciante;Introdução aos Exercícios de Flexibilidade e Mobilidade;1
+97;Treino Pliométrico Avançado com Peso Corporal;Hipertrofia;Explosão e Força Avançada;5
+98;Treino de Força com Peso Corporal e Equipamentos;Força;Força Geral com o Peso do Corpo e Acessórios;3
+99;Treino Integrado de Movimentos Funcionais com Peso Livre;Integração;Corpo inteiro (combinação de movimentos com pesos livres);4
