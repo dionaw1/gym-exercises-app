@@ -3,9 +3,6 @@
 #include <algorithm>
 using namespace std;
 
-/* Como ainda não fomos apresentados a manipulação de arquivos binários, optamos por seguir, nessa primeira etapa
-do projeto, lendo e escrevendo de um arquivo convencional de texto, nesse caso o CSV. */
-
 // Registro base que vai receber as informações do arquivo.
 
 struct base
@@ -45,7 +42,7 @@ bool repete()
 
 void inserirArquivo(base *&ptrVetorCompleto, int *&ptrVetorModificado, int &capacidade, int &tamanho)
 {
-    ofstream dados("dados.csv", ios::app); // Arquivo aberto no modo app para escrever apenas no final do mesmo.
+    ofstream dados("dados.dat", ios::app); // Arquivo aberto no modo app para escrever apenas no final do mesmo.
     do
     {
             if (tamanho == (capacidade - 1)) // Realocação dinâmica padrão quando o arquivo estiver em sua capacidade máxima.
@@ -168,13 +165,13 @@ void alterarDado(base *ptrVetorCompleto, int *ptrVetorModificado, int i)
     }
 }
 
-/* Função que lê um arquivo chamado "dados.csv" e carrega os dados para um vetor de estruturas 'ptrVetorCompleto[]'.
+/* Função que lê um arquivo chamado "dados.dat" e carrega os dados para um vetor de estruturas 'ptrVetorCompleto[]'.
 Retorna um booleano indicando se o carregamento do arquivo foi bem-sucedido ou não.*/
 
 bool receberArquivo(base *&ptrVetorCompleto, int *&ptrVetorModificado, int &tamanho, int &capacidade)
 {
     string cabecalho;
-    ifstream entrada("dados.csv");
+    ifstream entrada("dados.dat");
     if (entrada)
     {
         getline(entrada, cabecalho, '#');
@@ -347,7 +344,7 @@ void escreverDados(base *ptrVetorCompleto, int *ptrVetorModificado, int tamanho,
         cout << "Nenhuma alteração feita no arquivo.";
     else
     {
-        ofstream saida("dados.csv");
+        ofstream saida("dados.dat");
         cout << "Deseja salvar todos os dados no arquivo ou apenas aqueles modificados?\n";
 
         do
