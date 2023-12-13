@@ -8,7 +8,6 @@ using namespace std;
 // Registro base que vai receber as informações do arquivo.
 struct base
 {
-    // Foram utilizados vetores de char na struct, pois isso facilita significativamente o trabalho com arquivos binários em comparação com strings.
     int id;
     char nome[75];
     char objetivo[100];
@@ -16,7 +15,6 @@ struct base
     int dificuldade;
 };
 
-// Aumenta a capacidade dos arrays 'cadastro' e 'alteracoes' em 10 unidades e copia os dados dos arrays originais para os novos arrays redimensionados.
 void redimensionamento(base *&cadastro, int *&alteracoes, int tamanho, int &capacidade)
 {
     capacidade += 10;
@@ -24,8 +22,8 @@ void redimensionamento(base *&cadastro, int *&alteracoes, int tamanho, int &capa
     int *novoVetorModificado = NULL;
     novoVetor = new base[capacidade];
     novoVetorModificado = new int[capacidade]();
-    copy(cadastro, cadastro + tamanho + 1, novoVetor);
-    copy(alteracoes, alteracoes + tamanho + 1, novoVetorModificado);
+    copy(cadastro, cadastro + tamanho, novoVetor);
+    copy(alteracoes, alteracoes + tamanho, novoVetorModificado);
     delete[] cadastro;
     delete[] alteracoes;
     cadastro = novoVetor;
@@ -59,7 +57,7 @@ void inserir(base *&cadastro, int *&alteracoes, int &tamanho, int &capacidade)
     cin >> novaDificuldade;
     cin.ignore();
 
-    // Escrevendo os novos dados no arquivo, strcpy usado para fazer com que as strings recebidas do sejam passadas como char prezando pelo bom funcionamento do código.
+    // Escrevendo os novos dados no arquivo
     int i = tamanho;
     cadastro[i].id = novoID;
     strcpy(cadastro[i].nome, novoNome.c_str());
@@ -80,58 +78,55 @@ void alterarDado(base *cadastro, int *alteracoes, int i)
 
     cout << "O que você deseja alterar?\n1- ID\n2 - Nome\n3 - Objetivo\n4 - Musculos\n5 - Dificuldade\n6 - Tudo\n0 - Voltar para a tela anterior.\n";
 
+    string novoNome, novoObjetivo, novosMusculos;
+
     do
     {
-        // Essa verificação vai ser usada algumas vezes pela extensão do código, ela basicamente vai conferir se a entrada corresponde ao tipo esperado, caso não, ela limpa o estado de erro que pode ser gerado.
         if (!(cin >> valorAlterar))
         {
             cin.clear();
             cin.ignore();
         }
-
-        // Altera o ID.
         if (valorAlterar == 1)
         {
             cout << "Digite o novo valor (que seja um número inteiro): ";
+            cin.ignore();
             cin >> cadastro[i].id;
             cin.ignore();
             alteracoes[i] = 1;
         }
-
-        // Altera o nome.
         else if (valorAlterar == 2)
         {
             cout << "Digite o novo valor: ";
-            cin.getline(cadastro[i].nome, sizeof(cadastro[i].nome));
+            cin.ignore();
+            getline(cin, novoNome);
+            strcpy(cadastro[i].nome, novoNome.c_str());
             alteracoes[i] = 1;
         }
-
-        // Altera o objetivo.
         else if (valorAlterar == 3)
         {
             cout << "Digite o novo valor: ";
-            cin.getline(cadastro[i].objetivo, sizeof(cadastro[i].objetivo));
+            cin.ignore();
+            getline(cin, novoObjetivo);
+            strcpy(cadastro[i].objetivo, novoObjetivo.c_str());
             alteracoes[i] = 1;
         }
-
-        // Altera os musculos.
         else if (valorAlterar == 4)
         {
             cout << "Digite o novo valor: ";
-            cin.getline(cadastro[i].musculos, sizeof(cadastro[i].musculos));
+            cin.ignore();
+            getline(cin, novosMusculos);
+            strcpy(cadastro[i].musculos, novosMusculos.c_str());
             alteracoes[i] = 1;
         }
-
-        // Altera o ID.
         else if (valorAlterar == 5)
         {
             cout << "Digite o novo valor (que seja um número inteiro): ";
+            cin.ignore();
             cin >> cadastro[i].dificuldade;
             cin.ignore();
             alteracoes[i] = 1;
         }
-
-        // Altera o todos os dados.
         else if (valorAlterar == 6)
         {
             alteracoes[i] = 1;
@@ -157,8 +152,6 @@ void alterarDado(base *cadastro, int *alteracoes, int i)
     } while (alteracoes[i] != 1 && valorAlterar != 0);
 }
 
-/* Solicita confirmação ao usuário para deletar um exercício no índice 'i' do array 'alteracoes'. O usuário pode escolher entre confirmar a exclusão (opção 1) ou cancelar a operação (opção 2).
-O status de exclusão é registrado em 'alteracoes[i]' (2 se o exercício foi marcado para exclusão). */
 void deletar_exercicio(int *alteracoes, int i)
 {
     cout << "Tem certeza que quer deletar esse exercicio, essa acao nao pode ser desfeita.\n";
@@ -186,8 +179,7 @@ void deletar_exercicio(int *alteracoes, int i)
     } while (opcao_deletar != 1 && opcao_deletar != 2);
 }
 
-/*  Lê dados de um arquivo CSV chamado "dados.csv" e os armazena nos arrays 'cadastro' e 'alteracoes'. A função também redimensiona dinamicamente os arrays conforme necessário.
-O cabeçalho do CSV é armazenado na variável 'cabecalho'. */
+// Função que lê um arquivo .csv e carrega os dados para um vetor de estruturas 'cadastro'. Retorna um booleano indicando se o carregamento do arquivo foi bem-sucedido ou não.
 bool ler_CSV(base *&cadastro, int *&alteracoes, int &tamanho, int &capacidade, char *cabecalho)
 {
     ifstream entrada("dados.csv");
@@ -234,8 +226,7 @@ bool lerArquivoBinario(base *&cadastro, int *&alteracoes, int &tamanho, int &cap
     return true;
 }
 
-/*  Permite a busca de exercícios no arquivo com base no nome ou ID. O usuário escolhe o tipo de busca e fornece as informações necessárias.
-Se um exercício é encontrado, o usuário tem a opção de alterar, deletar ou não fazer nada. */
+// Procedimento que busca se o exercício que o usuário deseja consultar está presente no arquivo, tambem e responsavel por chamar outros procedimentos caso o usuario queira alterar ou deletar algum exercicio.
 void buscaArquivo(base *cadastro, int *alteracoes, int tamanho)
 {
     bool achou = false;
@@ -370,7 +361,7 @@ void buscaArquivo(base *cadastro, int *alteracoes, int tamanho)
              << endl;
 }
 
-// Escreve os dados do array 'cadastro' no arquivo CSV chamado "dados.csv". O usuário pode escolher salvar todos os dados ou apenas aqueles que foram modificados.
+// Procedimento que salva as modificações do vetor 'cadastro', usado pra manipular os valores e salva as açterações no arquivo
 void escrever_CSV(base *cadastro, int *alteracoes, int tamanho, string cabecalho)
 {
 
@@ -384,7 +375,7 @@ void escrever_CSV(base *cadastro, int *alteracoes, int tamanho, string cabecalho
             foiModificado = true;
         i++;
     }
-
+    cabecalho = "identificador;nome;objetivo;musculos;dificuldade;#";
     ofstream saida("dados.csv");
     cout << "Deseja salvar todos os dados no arquivo ou apenas aqueles modificados?\n";
 
@@ -396,7 +387,7 @@ void escrever_CSV(base *cadastro, int *alteracoes, int tamanho, string cabecalho
 
         if (entrada == 1)
         {
-            saida << cabecalho << '#' << endl;
+            saida << cabecalho << endl;
             for (int i = 0; i < tamanho; i++)
             {
                 if (alteracoes[i] != 2)
@@ -444,7 +435,6 @@ void escrever_CSV(base *cadastro, int *alteracoes, int tamanho, string cabecalho
     saida.close();
 }
 
-// Escreve os dados do array 'cadastro' no arquivo BIN chamado "dados.bin". O usuário pode escolher salvar todos os dados ou apenas aqueles que foram modificados.
 void escrever_BIN(base *cadastro, int *alteracoes, int tamanho)
 {
 
@@ -498,8 +488,6 @@ void escrever_BIN(base *cadastro, int *alteracoes, int tamanho)
     saida.close();
 }
 
-
-// Procedimentos usados pelo quick sort.
 void swap(base &a, base &b)
 {
     base temp = a;
@@ -555,21 +543,27 @@ void ordenarPorID(base cadastro[], int tamanho)
     quickSort(cadastro, 0, tamanho - 1, compararPorID);
 }
 
+void show(base vetor[], int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        cout << "ID: " << vetor[i].id << ". "
+             << "Nome: " << vetor[i].nome << ". "
+             << "Objetivo: " << vetor[i].objetivo << ". "
+             << "Musculos: " << vetor[i].musculos << ". "
+             << "Dificuldade: " << vetor[i].dificuldade << endl;
+    }
+}
+
 // Função principal, usada pra chamar as demais funcoes e procedimentos do codigo, verificando se certas condições são atendidas.
 int main()
 {
-
-    // Cabecalho é onde é armazenado os itens de definição exclusivos do arquivo csv.
     char cabecalho[60];
+    int tamanho = 0, capacidade = 150;
 
-    // Tamanho vai medir a quantidade de itens que tem nos vetores. Capacidade é definida como a quantidade máxima de itens que podem haver nos vetores.
-    int tamanho = 0, capacidade = 15;
-
-    // Cadastro é o vetor principal do programa que vai armazenar todos os itens do arquivo.
     base *cadastro = NULL; //
     cadastro = new base[capacidade];
 
-    // Alterações é o vetor que armazena as modificações feitas, tal qual deletar ou mesmo alterar algum item.
     int *alteracoes = NULL;
     alteracoes = new int[capacidade]();
 
@@ -611,14 +605,14 @@ int main()
     cout << "O que deseja fazer no arquivo?\n";
     do
     {
-        cout << "*\n1 - Consultar (alterar e deletar).\n2 - Inserir novos dados.\n3 - Ordenar dados.\n4 - Salvar arquivo. (Salve para efetivar as alteracoes no arquivo)\n0 - Sair do programa.\n";
+        cout << "*\n1 - Consultar (alterar e deletar).\n2 - Inserir novos dados.\n3 - Ordenar dados.\n4 - Salvar arquivo. (Salve para efetivar as alteracoes no arquivo)\n5 - Exibir todos os dados\n0 - Sair do programa.\n";
         if (!(cin >> modo))
         {
             cin.clear();
             cin.ignore();
-            system("cls");
             modo = -1;
         }
+        system("cls");
         if (modo == 1)
         {
             buscaArquivo(cadastro, alteracoes, capacidade);
@@ -674,6 +668,10 @@ int main()
                 else
                     cout << "Opcao invalida\n";
             } while (opcao_salvar != 1 && opcao_salvar != 2);
+        }
+        else if (modo == 5)
+        {
+            show(cadastro, tamanho);
         }
         else if (modo == 0)
         {
